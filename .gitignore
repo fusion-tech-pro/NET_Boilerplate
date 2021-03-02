@@ -236,3 +236,6 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 src/Boilerplate/.vs/Boilerplate.API/appsettings.Development.json
+.vs/slnx.sqlite
+.vs/VSWorkspaceState.json
+src/.vs/Boilerplate/DesignTimeBuild/.dtbcache.v2
