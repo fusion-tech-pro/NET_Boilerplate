@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 
 namespace Boilerplate.API
 {
+    using Boilerplate.Domain;
+    using Boilerplate.Validator;
+    using FluentValidation.AspNetCore;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -24,6 +28,7 @@ namespace Boilerplate.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddBoilerplateDependencies<AppDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
