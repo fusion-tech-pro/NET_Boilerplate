@@ -29,6 +29,7 @@ namespace Boilerplate.API
         {
             services.AddControllersWithViews();
             services.AddBoilerplateDependencies<AppDbContext>();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +51,11 @@ namespace Boilerplate.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(builder => builder
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {
