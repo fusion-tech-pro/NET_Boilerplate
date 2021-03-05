@@ -18,14 +18,14 @@
             _dbSet = context.Set<T>();
         }
    
-        public virtual T First(Expression<Func<T, bool>> predicate)
+        public virtual T First(ISpecification<T> predicate)
         {
-            return _dbSet.First(predicate);
+            return _dbSet.First(predicate.IsSatisfiedBy);
         }
         
-        public virtual T FirstOrDefault(Expression<Func<T, bool>> predicate)
+        public virtual T FirstOrDefault(ISpecification<T> predicate)
         {
-            return _dbSet.FirstOrDefault(predicate);
+            return _dbSet.FirstOrDefault(predicate.IsSatisfiedBy);
         }
         
         public T FirstOrDefault()
@@ -38,14 +38,14 @@
             return _dbSet.AsNoTracking();
         }
         
-        public virtual IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
+        public virtual IQueryable<T> FindBy(ISpecification<T> spec)
         {
-            return _dbSet.Where(predicate);
+            return _dbSet.Where(r => spec.IsSatisfiedBy(r));
         }
 
-        public bool Any(Expression<Func<T, bool>> predicate)
+        public bool Any(ISpecification<T> predicate)
         {
-            return _dbSet.Any(predicate);
+            return _dbSet.Any(predicate.IsSatisfiedBy);
         }
 
         public virtual T Find(params object[] keys)
@@ -91,16 +91,6 @@
         public Task<T> FirstOrDefaultAsync()
         {
             return _dbSet.FirstOrDefaultAsync();
-        }
-        
-        public IOrderedQueryable<T> OrderBy<K>(Expression<Func<T, K>> predicate)
-        {
-            return _dbSet.OrderBy(predicate);
-        }
-        
-        public IQueryable<IGrouping<K, T>> GroupBy<K>(Expression<Func<T, K>> predicate)
-        {
-            return _dbSet.GroupBy(predicate);
         }
     }
 }
