@@ -12,8 +12,9 @@ using System.Threading.Tasks;
 namespace Boilerplate.API
 {
     using Boilerplate.Domain;
-    using Boilerplate.Validator;
-    using FluentValidation.AspNetCore;
+    using Boilerplate.Models;
+    using Boilerplate.Services;
+    using Microsoft.EntityFrameworkCore;
 
     public class Startup
     {
@@ -26,9 +27,10 @@ namespace Boilerplate.API
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        { 
+            services.AddBoilerplateDependencies<AppDbContext>(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddScoped<IItemService, ItemService>();
             services.AddControllersWithViews();
-            services.AddBoilerplateDependencies<AppDbContext>();
             services.AddCors();
         }
 
