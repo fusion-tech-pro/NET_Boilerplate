@@ -9,7 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Domain", "Boile
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Models", "Boilerplate.Validator\Boilerplate.Models.csproj", "{54491F96-961E-427C-A721-3FE34E9A1D1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.Services", "Boilerplate.Services\Boilerplate.Services.csproj", "{0871E7A7-321D-427C-99FA-0B80C9B11106}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Services", "Boilerplate.Services\Boilerplate.Services.csproj", "{0871E7A7-321D-427C-99FA-0B80C9B11106}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Boilerplate.UI", "Boilerplate.UI", "{A02DCAB8-8D24-4C86-B21B-60ED5BF8D13C}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Front boilerplate\index.html = ..\..\Front boilerplate\index.html
+		..\..\Front boilerplate\simpleCode.js = ..\..\Front boilerplate\simpleCode.js
+		..\..\Front boilerplate\styles.scss = ..\..\Front boilerplate\styles.scss
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
