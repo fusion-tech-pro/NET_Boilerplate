@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace Boilerplate.Validator
+﻿namespace Boilerplate.Models
 {
+    using System;
     using FluentValidation;
 
     public class Item
@@ -13,6 +12,9 @@ namespace Boilerplate.Validator
         public Status Status { get; set; }
 
         public DateTime CreateDate { get; private set; }
+
+        public DateTime UpdateDate { get; set; }
+
 
         public Item()
         {
