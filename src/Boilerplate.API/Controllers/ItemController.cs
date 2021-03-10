@@ -1,94 +1,66 @@
-﻿namespace Boilerplate.API.Controllers
+﻿namespace Boilerplate.API
 {
+    #region << Using >>
+
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
-    using AutoMapper;
-    using Boilerplate.Domain;
     using Boilerplate.Models;
     using Boilerplate.Services;
     using Microsoft.AspNetCore.Mvc;
 
-    public class ItemController : Controller {
+    #endregion
+
+    public class ItemController : Controller
+    {
+        #region Properties
 
         private readonly IItemService _itemService;
+
+        #endregion
+
+        #region Constructors
+
         public ItemController(IItemService itemService)
         {
             this._itemService = itemService ?? throw new ArgumentNullException(nameof(itemService));
         }
 
+        #endregion
 
         [HttpPost]
-        public IActionResult Test([FromBody]Item item) {
-
-            if(!ModelState.IsValid) {
-                
-            }
-            
-            return Ok("ok");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] ItemAddDto itemDto)
+        public async Task<IActionResult> Add([FromBody] ItemDto itemDto)
         {
-            /*CODEREVIEW: here and beneath remove 'if'-nesting,
-             use if(!ModelState.IsValid) return ... instead*/
-            if (ModelState.IsValid)
-            {
-                await this._itemService.Add(itemDto);
-            }
-            else
-            {
+            if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
-            }
 
+            await this._itemService.AddOrUpdate(itemDto);
             return Ok("ok");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Update([FromBody] ItemDto item)
+        {
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
+            await this._itemService.AddOrUpdate(item);
+            return Ok("ok");
+        }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]ItemUpdateDto item) {
-
-            if (ModelState.IsValid)
-            {
-                await _itemService.Put(item);
-            }
-            else
-            {
+        public async Task<IActionResult> Put([FromBody] ItemDto item)
+        {
+            if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
-            }
 
+            await this._itemService.AddOrUpdate(item);
             return Ok("ok");
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id) {
-
-            if (ModelState.IsValid)
-            {
-                await _itemService.Delete(id);
-            }
-            else
-            {
-                return ValidationProblem(ModelState);
-            }
-
-            return Ok("ok");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Update([FromBody] ItemUpdateDto item)
+        public async Task<IActionResult> Delete(int id)
         {
-
-            if (ModelState.IsValid)
-            {
-                await _itemService.Update(item);
-            }
-            else
-            {
-                return ValidationProblem(ModelState);
-            }
-
+            await this._itemService.Delete(id);
             return Ok("ok");
         }
     }

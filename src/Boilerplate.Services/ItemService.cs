@@ -14,8 +14,6 @@
     {
         #region Properties
 
-        //private readonly IRepository<Item> _repo;
-
         private readonly IUnitOfWork _unitOfWork;
 
         #endregion
@@ -31,51 +29,7 @@
 
         #region Interface Implementations
 
-        public Task Add(ItemAddDto itemDto)
-        {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<ItemAddDto, Item>()
-               .ForMember("Value", opt => opt.MapFrom(c => c.Value))
-               .ForMember("Status", opt => opt.MapFrom(c => c.Status))
-               .ForMember("CreateDate", opt => opt.MapFrom(c => c.CreateDate)));
-
-            var mapper = new Mapper(config);
-            var item = mapper.Map<ItemAddDto, Item>(itemDto);
-
-            this._unitOfWork.Repository<Item>().Add(item);
-            return this._unitOfWork.Repository<Item>().SaveChangesAsync();
-        }
-
-        public Task Update(ItemUpdateDto itemDto)
-        {
-            var item = this._unitOfWork.Repository<Item>().Get(itemDto.Id);
-
-            if (item == null)
-                throw new ArgumentNullException();
-
-            item.Status = itemDto.Status;
-            item.UpdateDate = DateTime.UtcNow;
-            item.Value = itemDto.Value;
-
-            this._unitOfWork.Repository<Item>().Update(item);
-            return this._unitOfWork.Repository<Item>().SaveChangesAsync();
-        }
-
-        public  Task Put(ItemUpdateDto itemDto)
-        {
-            var item =  this._unitOfWork.Repository<Item>().Get(itemDto.Id);
-
-            if (item == null)
-                throw new ArgumentNullException();
-
-            item.Status = itemDto.Status;
-            item.UpdateDate = DateTime.UtcNow;
-            item.Value = itemDto.Value;
-
-            this._unitOfWork.Repository<Item>().Update(item);
-            return this._unitOfWork.Repository<Item>().SaveChangesAsync();
-        }
-
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
             var item = this._unitOfWork.Repository<Item>().Get(id);
 
@@ -83,9 +37,51 @@
                 throw new ArgumentNullException();
 
             this._unitOfWork.Repository<Item>().Delete(item);
-            return this._unitOfWork.Repository<Item>().SaveChangesAsync();
+            await this._unitOfWork.Repository<Item>().SaveChangesAsync();
+        }
+
+        public async Task<Item> AddOrUpdate(ItemDto itemDto)
+        {
+            Item item;
+            if (itemDto.Id.HasValue)
+                item = await Update(itemDto);
+            else
+                item = await Add(itemDto);
+
+            return item;
         }
 
         #endregion
+
+        private async Task<Item> Add(ItemDto itemDto)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<ItemDto, Item>().ReverseMap());
+
+            var mapper = new Mapper(config);
+            var item = mapper.Map<Item>(itemDto);
+
+            this._unitOfWork.Repository<Item>().Add(item);
+            await this._unitOfWork.Repository<Item>().SaveChangesAsync();
+            return item;
+        }
+
+        private async Task<Item> Update(ItemDto itemDto)
+        {
+            if (!itemDto.Id.HasValue)
+                throw new ArgumentNullException();
+
+            var item = this._unitOfWork.Repository<Item>().Get(itemDto.Id.Value);
+
+            if (item == null)
+                throw new ArgumentNullException();
+
+            item.Status = itemDto.Status;
+            item.UpdateDate = DateTime.UtcNow;
+            item.Value = itemDto.Value;
+
+            this._unitOfWork.Repository<Item>().Update(item);
+            await this._unitOfWork.Repository<Item>().SaveChangesAsync();
+            return item;
+        }
     }
 }

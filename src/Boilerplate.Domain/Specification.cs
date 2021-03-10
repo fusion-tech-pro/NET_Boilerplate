@@ -36,7 +36,7 @@
 
         public abstract Expression<Func<T, bool>> ToExpression();
     }
-    
+
     public class AndSpecification<T> : Specification<T>
     {
         #region Properties

@@ -1,22 +1,30 @@
-﻿using Boilerplate.API.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Boilerplate.API.Controllers
+﻿namespace Boilerplate.API
 {
+    #region << Using >>
+
+    using System.Diagnostics;
+    using Boilerplate.API.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+
+    #endregion
+
     public class HomeController : Controller
     {
+        #region Properties
+
         private readonly ILogger<HomeController> _logger;
+
+        #endregion
+
+        #region Constructors
 
         public HomeController(ILogger<HomeController> logger)
         {
-            _logger = logger;
+            this._logger = logger;
         }
+
+        #endregion
 
         public IActionResult Index()
         {

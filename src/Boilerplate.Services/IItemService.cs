@@ -1,16 +1,16 @@
 ﻿namespace Boilerplate.Services
 {
+    #region << Using >>
+
     using System.Threading.Tasks;
     using Boilerplate.Models;
 
+    #endregion
+
     public interface IItemService
     {
-        Task Add(ItemAddDto itemDto);
+        Task<Item> AddOrUpdate(ItemDto itemDto);
 
-        Task Update(ItemUpdateDto itemDto);
-
-        Task Put(ItemUpdateDto itemDto);
-        
         Task Delete(int id);
     }
 }
