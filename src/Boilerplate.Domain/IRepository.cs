@@ -1,17 +1,16 @@
 ﻿namespace Boilerplate.Domain
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using Microsoft.EntityFrameworkCore;
 
     public interface IRepository<T> where T : class
     {
         void SaveChanges();
         
         Task SaveChangesAsync();
+
+        T Get(int id);
         
         T First(ISpecification<T> predicate);
         
@@ -27,7 +26,7 @@
         
         bool Any(ISpecification<T> predicate);
         
-        T Find(params object[] keys);
+        T Find(object key, params object[] keys);
         
         void Add(T entity);
         

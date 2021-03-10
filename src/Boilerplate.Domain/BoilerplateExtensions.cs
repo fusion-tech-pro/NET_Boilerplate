@@ -2,7 +2,8 @@
 {
     #region << Using >>
 
-    using Boilerplate.Validator;
+    using AutoMapper;
+    using Boilerplate.Models;
     using FluentValidation.AspNetCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -26,9 +27,9 @@
             return services;
         }
 
-        public static IServiceCollection AddBoilerplateDependencies<TContext>(this IServiceCollection services) where TContext : DbContext
+        public static IServiceCollection AddBoilerplateDependencies<TContext>(this IServiceCollection services, string connectionString) where TContext : DbContext
         {
-            services.AddDbContext<AppDbContext>();
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
             services.AddUnitOfWork<TContext>();
             services.AddFluentValidation<TContext>();
 

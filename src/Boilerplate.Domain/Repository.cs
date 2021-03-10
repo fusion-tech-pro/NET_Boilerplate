@@ -17,7 +17,7 @@
             _context = context;
             _dbSet = context.Set<T>();
         }
-   
+
         public virtual T First(ISpecification<T> predicate)
         {
             return _dbSet.First(predicate.IsSatisfiedBy);
@@ -48,9 +48,14 @@
             return _dbSet.Any(predicate.IsSatisfiedBy);
         }
 
-        public virtual T Find(params object[] keys)
+        public virtual T Find(object key, params object[] keys)
         {
             return _dbSet.Find(keys);
+        }
+
+        public virtual T Get(int id)
+        {
+            return _dbSet.Find(id);
         }
         
         public virtual void Add(T entity)
@@ -75,9 +80,10 @@
         
         public virtual void Update(T entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
+            //_context.Entry(entity).State = EntityState.Modified;
+            _dbSet.Update(entity);
         }
-        
+
         public virtual void SaveChanges()
         {
             _context.SaveChanges();
