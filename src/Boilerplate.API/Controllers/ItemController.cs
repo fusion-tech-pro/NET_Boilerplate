@@ -31,7 +31,8 @@
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] ItemAddDto itemDto)
         {
-
+            /*CODEREVIEW: here and beneath remove 'if'-nesting,
+             use if(!ModelState.IsValid) return ... instead*/
             if (ModelState.IsValid)
             {
                 await this._itemService.Add(itemDto);

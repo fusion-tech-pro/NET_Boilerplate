@@ -2,6 +2,7 @@
 {
     using System;
 
+/*CODEREVIEW: remove access modifiers from the interface*/
     public interface ISpecification<T>
     {
         bool IsSatisfiedBy(T entity);

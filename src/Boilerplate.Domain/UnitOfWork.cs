@@ -60,6 +60,7 @@
             return (IRepository<TEntity>)_repositories[type];
         }
         
+/*CODEREVIEW: to keep code consistent use classic function here and beneath*/
         public int ExecuteSqlCommand(string sql, params object[] parameters) => DbContext.Database.ExecuteSqlRaw(sql, parameters);
         
         public IQueryable<TEntity> FromSql<TEntity>(string sql, params object[] parameters) where TEntity : class => DbContext.Set<TEntity>().FromSqlRaw(sql, parameters);
