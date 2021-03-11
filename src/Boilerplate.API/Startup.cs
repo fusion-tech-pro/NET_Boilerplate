@@ -1,34 +1,43 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Boilerplate.API
 {
+    #region << Using >>
+
     using Boilerplate.Domain;
-    using Boilerplate.Validator;
-    using FluentValidation.AspNetCore;
+    using Boilerplate.Models;
+    using Boilerplate.Services;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+
+    #endregion
 
     public class Startup
     {
+        #region Properties
+
+        public IConfiguration Configuration { get; }
+
+        #endregion
+
+        #region Constructors
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        #endregion
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddBoilerplateDependencies<AppDbContext>(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddScoped<IItemService, ItemService>();
             services.AddControllersWithViews();
-            services.AddBoilerplateDependencies<AppDbContext>();
+            services.AddCors();
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,10 +49,11 @@ namespace Boilerplate.API
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Item/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -51,12 +61,17 @@ namespace Boilerplate.API
 
             app.UseAuthorization();
 
+            app.UseCors(builder => builder
+                                   .AllowAnyOrigin()
+                                   .AllowAnyMethod()
+                                   .AllowAnyHeader());
+
             app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+                             {
+                                 endpoints.MapControllerRoute(
+                                                              "default",
+                                                              "{controller=Item}/{action=Get}/{id?}");
+                             });
         }
     }
 }

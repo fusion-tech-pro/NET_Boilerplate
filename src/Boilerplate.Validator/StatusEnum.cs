@@ -1,4 +1,4 @@
-﻿namespace Boilerplate.Validator
+﻿namespace Boilerplate.Models
 {
     
         #region Nested Classes

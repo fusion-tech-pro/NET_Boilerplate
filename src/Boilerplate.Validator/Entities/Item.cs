@@ -1,33 +1,47 @@
-﻿using System;
-
-namespace Boilerplate.Validator
+﻿namespace Boilerplate.Models
 {
+    #region << Using >>
+
+    using Boilerplate.Domain;
     using FluentValidation;
 
-    public class Item
+    #endregion
+
+    public class Item : EntityBase
     {
-        public int Id { get; set; }
+        #region Properties
 
         public string Value { get; set; }
 
         public Status Status { get; set; }
 
-        public DateTime CreateDate { get; private set; }
+        #endregion
+
+        #region Constructors
 
         public Item()
         {
-            CreateDate = DateTime.UtcNow;
             Status = Status.New;
         }
 
+        #endregion
+
+        #region Nested Classes
+
         public class Validator : AbstractValidator<Item>
         {
+            #region Constructors
+
             public Validator()
             {
                 RuleFor(x => x.Id).NotNull();
                 RuleFor(x => x.Value).MinimumLength(2).MaximumLength(100).NotEmpty();
                 RuleFor(x => x.Status).NotNull();
             }
+
+            #endregion
         }
+
+        #endregion
     }
 }

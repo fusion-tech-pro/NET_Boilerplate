@@ -2,7 +2,6 @@
 {
     #region << Using >>
 
-    using Boilerplate.Validator;
     using FluentValidation.AspNetCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -21,14 +20,14 @@
 
         public static IServiceCollection AddFluentValidation<TContext>(this IServiceCollection services)
         {
-            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<TContext>());
+            services.AddMvc().AddFluentValidation(configurationExpression: fv => fv.RegisterValidatorsFromAssemblyContaining<TContext>());
 
             return services;
         }
 
-        public static IServiceCollection AddBoilerplateDependencies<TContext>(this IServiceCollection services) where TContext : DbContext
+        public static IServiceCollection AddBoilerplateDependencies<TContext>(this IServiceCollection services, string connectionString) where TContext : DbContext
         {
-            services.AddDbContext<AppDbContext>();
+            services.AddDbContext<TContext>(options => options.UseSqlServer(connectionString));
             services.AddUnitOfWork<TContext>();
             services.AddFluentValidation<TContext>();
 
