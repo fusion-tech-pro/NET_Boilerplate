@@ -10,8 +10,4 @@
     <ProjectReference Include="..\Boilerplate.Validator\Boilerplate.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Item\" />
-  </ItemGroup>
-
 </Project>

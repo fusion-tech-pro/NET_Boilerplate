@@ -16,7 +16,7 @@
 
         public Status Status { get; set; }
 
-        public DateTime? CreateDate { get; private set; }
+        public DateTime? CreateDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
 

@@ -12,5 +12,7 @@
         Task<Item> AddOrUpdate(ItemDto itemDto);
 
         Task Delete(int id);
+
+        Task<Item[]> GetAsync(int? id);
     }
 }

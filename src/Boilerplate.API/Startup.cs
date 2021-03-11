@@ -49,7 +49,7 @@ namespace Boilerplate.API
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Item/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -70,7 +70,7 @@ namespace Boilerplate.API
                              {
                                  endpoints.MapControllerRoute(
                                                               "default",
-                                                              "{controller=Home}/{action=Index}/{id?}");
+                                                              "{controller=Item}/{action=Get}/{id?}");
                              });
         }
     }

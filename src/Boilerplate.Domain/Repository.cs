@@ -4,7 +4,6 @@
 
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
 
     #endregion
@@ -31,44 +30,11 @@
 
         #region Interface Implementations
 
-        public virtual T First(ISpecification<T> predicate)
+        public virtual IQueryable<T> Get(Specification<T> spec = null)
         {
-            return this._dbSet.First(predicate.IsSatisfiedBy);
-        }
+            var expression = spec?.ToExpression();
 
-        public virtual T FirstOrDefault(ISpecification<T> predicate)
-        {
-            return this._dbSet.FirstOrDefault(predicate.IsSatisfiedBy);
-        }
-
-        public T FirstOrDefault()
-        {
-            return this._dbSet.FirstOrDefault();
-        }
-
-        public virtual IQueryable<T> GetAll()
-        {
-            return this._dbSet.AsNoTracking();
-        }
-
-        public virtual IQueryable<T> FindBy(ISpecification<T> spec)
-        {
-            return this._dbSet.Where(r => spec.IsSatisfiedBy(r));
-        }
-
-        public bool Any(ISpecification<T> predicate)
-        {
-            return this._dbSet.Any(predicate.IsSatisfiedBy);
-        }
-
-        public virtual T Find(object key, params object[] keys)
-        {
-            return this._dbSet.Find(keys);
-        }
-
-        public virtual T Get(int id)
-        {
-            return this._dbSet.Find(id);
+            return expression == null ? this._dbSet.AsQueryable() : this._dbSet.Where(expression);
         }
 
         public virtual void Add(T entity)
@@ -76,7 +42,7 @@
             this._dbSet.Add(entity);
         }
 
-        public virtual void AddRange(IEnumerable<T> entities)
+        public virtual void Add(IEnumerable<T> entities)
         {
             this._dbSet.AddRange(entities);
         }
@@ -86,30 +52,15 @@
             this._dbSet.Remove(entity);
         }
 
-        public void DeleteRange(IEnumerable<T> entity)
+        public void Delete(IEnumerable<T> entity)
         {
             this._dbSet.RemoveRange(entity);
         }
 
         public virtual void Update(T entity)
         {
-            //_context.Entry(entity).State = EntityState.Modified;
+            this._context.Entry(entity).State = EntityState.Modified;
             this._dbSet.Update(entity);
-        }
-
-        public virtual void SaveChanges()
-        {
-            this._context.SaveChanges();
-        }
-
-        public virtual Task SaveChangesAsync()
-        {
-            return this._context.SaveChangesAsync();
-        }
-
-        public Task<T> FirstOrDefaultAsync(object unknown)
-        {
-            return this._dbSet.FirstOrDefaultAsync();
         }
 
         #endregion

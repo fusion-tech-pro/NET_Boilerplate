@@ -2,6 +2,7 @@
 {
     #region << Using >>
 
+    using Boilerplate.Domain;
     using FluentValidation;
 
     #endregion

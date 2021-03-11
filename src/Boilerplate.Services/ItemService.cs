@@ -7,6 +7,7 @@
     using AutoMapper;
     using Boilerplate.Domain;
     using Boilerplate.Models;
+    using Microsoft.EntityFrameworkCore;
 
     #endregion
 
@@ -31,57 +32,53 @@
 
         public async Task Delete(int id)
         {
-            var item = this._unitOfWork.Repository<Item>().Get(id);
-
-            if (item == null)
-                throw new ArgumentNullException();
+            var spec = new FindByIdSpec<Item>(id);
+            var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
 
             this._unitOfWork.Repository<Item>().Delete(item);
-            await this._unitOfWork.Repository<Item>().SaveChangesAsync();
+            await this._unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<Item[]> GetAsync(int? id)
+        {
+            var spec = id.HasValue ? new FindByIdSpec<Item>(id.Value) : null;
+            var items = await this._unitOfWork.Repository<Item>().Get(spec).ToArrayAsync();
+
+            return items;
         }
 
         public async Task<Item> AddOrUpdate(ItemDto itemDto)
         {
-            Item item;
-            if (itemDto.Id.HasValue)
-                item = await Update(itemDto);
-            else
-                item = await Add(itemDto);
+            var isNew = false;
 
-            return item;
-        }
-
-        #endregion
-
-        private async Task<Item> Add(ItemDto itemDto)
-        {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<ItemDto, Item>().ReverseMap());
-
-            var mapper = new Mapper(config);
-            var item = mapper.Map<Item>(itemDto);
-
-            this._unitOfWork.Repository<Item>().Add(item);
-            await this._unitOfWork.Repository<Item>().SaveChangesAsync();
-            return item;
-        }
-
-        private async Task<Item> Update(ItemDto itemDto)
-        {
-            if (!itemDto.Id.HasValue)
-                throw new ArgumentNullException();
-
-            var item = this._unitOfWork.Repository<Item>().Get(itemDto.Id.Value);
+            var spec = new FindByIdSpec<Item>(itemDto.Id.GetValueOrDefault());
+            var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
 
             if (item == null)
-                throw new ArgumentNullException();
+            {
+                isNew = true;
+                item = new Item();
+            }
 
             item.Status = itemDto.Status;
             item.UpdateDate = DateTime.UtcNow;
             item.Value = itemDto.Value;
 
-            this._unitOfWork.Repository<Item>().Update(item);
-            await this._unitOfWork.Repository<Item>().SaveChangesAsync();
+            if (isNew)
+                this._unitOfWork.Repository<Item>().Add(item);
+            else
+                this._unitOfWork.Repository<Item>().Update(item);
+
+            await this._unitOfWork.SaveChangesAsync();
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<ItemDto, Item>().ReverseMap());
+
+            var mapper = new Mapper(config);
+            item = mapper.Map<Item>(itemDto);
+
             return item;
         }
+
+        #endregion
     }
 }

@@ -17,5 +17,14 @@
         public DateTime UpdateDate { get; set; }
 
         #endregion
+
+        #region Constructors
+
+        public EntityBase()
+        {
+            CreateDate = DateTime.UtcNow;
+        }
+
+        #endregion
     }
 }

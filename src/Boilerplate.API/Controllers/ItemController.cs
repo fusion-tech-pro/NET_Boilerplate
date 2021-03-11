@@ -27,8 +27,15 @@
 
         #endregion
 
+        [HttpGet]
+        public async Task<IActionResult> Get(int? id)
+        {
+            var item = await this._itemService.GetAsync(id);
+            return Ok(item);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] ItemDto itemDto)
+        public async Task<IActionResult> Post([FromBody] ItemDto itemDto)
         {
             if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
@@ -47,6 +54,13 @@
             return Ok("ok");
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this._itemService.Delete(id);
+            return Ok("ok");
+        }
+
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] ItemDto item)
         {
@@ -54,13 +68,6 @@
                 return ValidationProblem(ModelState);
 
             await this._itemService.AddOrUpdate(item);
-            return Ok("ok");
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await this._itemService.Delete(id);
             return Ok("ok");
         }
     }
