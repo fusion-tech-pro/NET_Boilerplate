@@ -10,8 +10,9 @@
 
     public static class BoilerplateExtensions
     {
-        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services) where TContext : DbContext
+        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services, string connectionString) where TContext : DbContext
         {
+            services.AddDbContext<TContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IUnitOfWork, UnitOfWork<TContext>>();
             services.AddScoped<IUnitOfWork<TContext>, UnitOfWork<TContext>>();
 
@@ -20,15 +21,15 @@
 
         public static IServiceCollection AddFluentValidation<TContext>(this IServiceCollection services)
         {
-            services.AddMvc().AddFluentValidation(configurationExpression: fv => fv.RegisterValidatorsFromAssemblyContaining<TContext>());
+            services.AddMvc(opt => opt.Filters.Add(typeof(ValidateModelStateFilter)))
+                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<TContext>());
 
             return services;
         }
 
         public static IServiceCollection AddBoilerplateDependencies<TContext>(this IServiceCollection services, string connectionString) where TContext : DbContext
         {
-            services.AddDbContext<TContext>(options => options.UseSqlServer(connectionString));
-            services.AddUnitOfWork<TContext>();
+            services.AddUnitOfWork<TContext>(connectionString);
             services.AddFluentValidation<TContext>();
 
             return services;

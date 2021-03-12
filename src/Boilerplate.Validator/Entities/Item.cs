@@ -3,7 +3,6 @@
     #region << Using >>
 
     using Boilerplate.Domain;
-    using FluentValidation;
 
     #endregion
 
@@ -22,24 +21,6 @@
         public Item()
         {
             Status = Status.New;
-        }
-
-        #endregion
-
-        #region Nested Classes
-
-        public class Validator : AbstractValidator<Item>
-        {
-            #region Constructors
-
-            public Validator()
-            {
-                RuleFor(x => x.Id).NotNull();
-                RuleFor(x => x.Value).MinimumLength(2).MaximumLength(100).NotEmpty();
-                RuleFor(x => x.Status).NotNull();
-            }
-
-            #endregion
         }
 
         #endregion

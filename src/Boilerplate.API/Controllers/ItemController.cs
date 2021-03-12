@@ -37,9 +37,6 @@
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ItemDto itemDto)
         {
-            if (!ModelState.IsValid)
-                return ValidationProblem(ModelState);
-
             await this._itemService.AddOrUpdate(itemDto);
             return Ok("ok");
         }
@@ -47,9 +44,6 @@
         [HttpPost]
         public async Task<IActionResult> Update([FromBody] ItemDto item)
         {
-            if (!ModelState.IsValid)
-                return ValidationProblem(ModelState);
-
             await this._itemService.AddOrUpdate(item);
             return Ok("ok");
         }
@@ -64,9 +58,6 @@
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] ItemDto item)
         {
-            if (!ModelState.IsValid)
-                return ValidationProblem(ModelState);
-
             await this._itemService.AddOrUpdate(item);
             return Ok("ok");
         }
