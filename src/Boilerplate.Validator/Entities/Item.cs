@@ -2,8 +2,8 @@
 {
     #region << Using >>
 
+    using AutoMapper;
     using Boilerplate.Domain;
-    using FluentValidation;
 
     #endregion
 
@@ -28,15 +28,13 @@
 
         #region Nested Classes
 
-        public class Validator : AbstractValidator<Item>
+        public class ItemProfile : Profile
         {
             #region Constructors
 
-            public Validator()
+            public ItemProfile()
             {
-                RuleFor(x => x.Id).NotNull();
-                RuleFor(x => x.Value).MinimumLength(2).MaximumLength(100).NotEmpty();
-                RuleFor(x => x.Status).NotNull();
+                CreateMap<Item, ItemDto>().ReverseMap();
             }
 
             #endregion

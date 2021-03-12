@@ -4,7 +4,6 @@
 
     using System;
     using System.Threading.Tasks;
-    using AutoMapper;
     using Boilerplate.Domain;
     using Boilerplate.Models;
     using Microsoft.EntityFrameworkCore;
@@ -70,11 +69,6 @@
                 this._unitOfWork.Repository<Item>().Update(item);
 
             await this._unitOfWork.SaveChangesAsync();
-
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<ItemDto, Item>().ReverseMap());
-
-            var mapper = new Mapper(config);
-            item = mapper.Map<Item>(itemDto);
 
             return item;
         }
