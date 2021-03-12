@@ -5,6 +5,7 @@ namespace Boilerplate.API
     using Boilerplate.Domain;
     using Boilerplate.Models;
     using Boilerplate.Services;
+    using JetBrains.Annotations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -30,7 +31,6 @@ namespace Boilerplate.API
 
         #endregion
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBoilerplateDependencies<AppDbContext>(Configuration.GetConnectionString("DefaultConnection"));
@@ -40,7 +40,7 @@ namespace Boilerplate.API
             services.AddAutoMapper(typeof(Startup));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [UsedImplicitly]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -50,7 +50,6 @@ namespace Boilerplate.API
             else
             {
                 app.UseExceptionHandler("/Item/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
