@@ -242,3 +242,4 @@ src/Boilerplate/.vs/Boilerplate.API/appsettings.Development.json
 src/.vs/Boilerplate/DesignTimeBuild/.dtbcache.v2
 src/Boilerplate.API/Boilerplate.API.csproj.DotSettings
 src/Boilerplate.Validator/Boilerplate.Models.csproj.DotSettings
+src/Boilerplate.Domain/Boilerplate.Domain.csproj.DotSettings

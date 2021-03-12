@@ -4,6 +4,7 @@
 
     using AutoMapper;
     using Boilerplate.Domain;
+    using JetBrains.Annotations;
 
     #endregion
 
@@ -28,6 +29,7 @@
 
         #region Nested Classes
 
+        [UsedImplicitly]
         public class ItemProfile : Profile
         {
             #region Constructors

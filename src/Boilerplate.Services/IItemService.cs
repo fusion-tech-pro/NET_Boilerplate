@@ -9,10 +9,10 @@
 
     public interface IItemService
     {
-        Task<Item> AddOrUpdate(ItemDto itemDto);
+        Task<ItemDto> AddOrUpdate(ItemDto itemDto);
 
         Task Delete(int id);
 
-        Task<Item[]> GetAsync(int? id);
+        Task<ItemDto[]> GetAsync(int? id);
     }
 }
