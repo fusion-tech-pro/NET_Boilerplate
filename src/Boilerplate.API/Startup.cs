@@ -38,6 +38,7 @@ namespace Boilerplate.API
             services.AddControllersWithViews();
             services.AddCors();
             services.AddAutoMapper(typeof(Startup));
+            services.AddScrutor();
         }
 
         [UsedImplicitly]
