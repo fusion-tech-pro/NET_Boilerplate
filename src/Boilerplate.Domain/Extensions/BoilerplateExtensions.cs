@@ -31,14 +31,24 @@
         {
             services.AddUnitOfWork<TContext>(connectionString);
             services.AddFluentValidation<TContext>();
+            services.AddScrutor<TContext>();
 
             return services;
         }
 
-        public static IServiceCollection AddScrutor(this IServiceCollection services)
+        public static IServiceCollection AddBoilerplateDependencies<TDbContext, TServicesContext>(this IServiceCollection services, string connectionString) where TDbContext : DbContext
+        {
+            services.AddUnitOfWork<TDbContext>(connectionString);
+            services.AddFluentValidation<TDbContext>();
+            services.AddScrutor<TServicesContext>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddScrutor<TContext>(this IServiceCollection services)
         {
             services.Scan(i =>
-                                  i.FromCallingAssembly()
+                                  i.FromAssemblyOf<TContext>()
                                    .InjectableAttributes()
                          );
 

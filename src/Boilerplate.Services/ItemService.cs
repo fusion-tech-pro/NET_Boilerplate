@@ -8,9 +8,11 @@
     using Boilerplate.Domain;
     using Boilerplate.Models;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
 
     #endregion
 
+    [Injectable(ServiceLifetime.Scoped)]
     public class ItemService : IItemService
     {
         #region Properties

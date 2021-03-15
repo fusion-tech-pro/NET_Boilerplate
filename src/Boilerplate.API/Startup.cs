@@ -33,12 +33,10 @@ namespace Boilerplate.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddBoilerplateDependencies<AppDbContext>(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddScoped<IItemService, ItemService>();
+            services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"));
             services.AddControllersWithViews();
             services.AddCors();
             services.AddAutoMapper(typeof(Startup));
-            services.AddScrutor();
         }
 
         [UsedImplicitly]
