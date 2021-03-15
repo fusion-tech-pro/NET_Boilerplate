@@ -34,5 +34,15 @@
 
             return services;
         }
+
+        public static IServiceCollection AddScrutor(this IServiceCollection services)
+        {
+            services.Scan(i =>
+                                  i.FromCallingAssembly()
+                                   .InjectableAttributes()
+                         );
+
+            return services;
+        }
     }
 }
