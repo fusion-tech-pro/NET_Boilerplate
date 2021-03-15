@@ -3,6 +3,7 @@
     #region << Using >>
 
     using System;
+    using Boilerplate.Domain;
     using FluentValidation;
     using JetBrains.Annotations;
 
@@ -34,12 +35,13 @@
             public Validator()
             {
                 RuleFor(x => x.Value)
-                        .NotEmpty().WithMessage("{PropertyName} is empty")
-                        .Length(2, 50).WithMessage("Length ({TotalLength} of {PropertyName} invalid)");
+                        .NotEmpty().WithMessage($"{Constants.FluentValidationConventions.PropertyName} is empty")
+                        .Length(2, 50).WithMessage($"Length ({Constants.FluentValidationConventions.TotalLength} of "
+                                                 + $"{Constants.FluentValidationConventions.PropertyName} invalid)");
 
                 RuleFor(x => x.Status)
-                        .NotNull().WithMessage("{PropertyName} is null")
-                        .NotEmpty().WithMessage("{PropertyName} is empty");
+                        .NotNull().WithMessage($"{Constants.FluentValidationConventions.PropertyName} is null")
+                        .NotEmpty().WithMessage($"{Constants.FluentValidationConventions.PropertyName} is empty");
             }
 
             #endregion

@@ -54,5 +54,12 @@
 
             return services;
         }
+
+        public static IServiceCollection AddAutoMapper<TContext>(this IServiceCollection services) where TContext : DbContext
+        {
+            services.AddAutoMapper(typeof(TContext));
+
+            return services;
+        }
     }
 }
