@@ -36,7 +36,6 @@ namespace Boilerplate.API
             services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"));
             services.AddControllersWithViews();
             services.AddCors();
-            services.AddAutoMapper<AppDbContext>();
         }
 
         [UsedImplicitly]

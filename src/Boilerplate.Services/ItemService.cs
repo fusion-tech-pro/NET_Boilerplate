@@ -7,12 +7,14 @@
     using AutoMapper;
     using Boilerplate.Domain;
     using Boilerplate.Models;
+    using JetBrains.Annotations;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
 
     #endregion
 
     [Injectable(ServiceLifetime.Scoped)]
+    [UsedImplicitly]
     public class ItemService : IItemService
     {
         #region Properties

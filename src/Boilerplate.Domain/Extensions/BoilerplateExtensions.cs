@@ -32,6 +32,7 @@
             services.AddUnitOfWork<TContext>(connectionString);
             services.AddFluentValidation<TContext>();
             services.AddScrutor<TContext>();
+            services.AddAutoMapper(typeof(TContext));
 
             return services;
         }
@@ -41,6 +42,7 @@
             services.AddUnitOfWork<TDbContext>(connectionString);
             services.AddFluentValidation<TDbContext>();
             services.AddScrutor<TServicesContext>();
+            services.AddAutoMapper(typeof(TDbContext));
 
             return services;
         }
@@ -51,13 +53,6 @@
                                   i.FromAssemblyOf<TContext>()
                                    .InjectableAttributes()
                          );
-
-            return services;
-        }
-
-        public static IServiceCollection AddAutoMapper<TContext>(this IServiceCollection services) where TContext : DbContext
-        {
-            services.AddAutoMapper(typeof(TContext));
 
             return services;
         }
