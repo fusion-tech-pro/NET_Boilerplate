@@ -37,7 +37,7 @@ namespace Boilerplate.API
             services.AddScoped<IItemService, ItemService>();
             services.AddControllersWithViews();
             services.AddCors();
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper<AppDbContext>();
         }
 
         [UsedImplicitly]

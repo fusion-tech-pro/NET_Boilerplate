@@ -15,15 +15,18 @@
     {
         #region Properties
 
+        private readonly IMapper _mapper;
+
         private readonly IUnitOfWork _unitOfWork;
 
         #endregion
 
         #region Constructors
 
-        public ItemService(IUnitOfWork unitOfWork)
+        public ItemService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this._unitOfWork = unitOfWork;
+            this._mapper = mapper;
         }
 
         #endregion
@@ -39,15 +42,15 @@
             await this._unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<Item[]> GetAsync(int? id)
+        public async Task<ItemDto[]> GetAsync(int? id)
         {
             var spec = id.HasValue ? new FindByIdSpec<Item>(id.Value) : null;
             var items = await this._unitOfWork.Repository<Item>().Get(spec).ToArrayAsync();
 
-            return items;
+            return this._mapper.Map<ItemDto[]>(items);
         }
 
-        public async Task<Item> AddOrUpdate(ItemDto itemDto)
+        public async Task<ItemDto> AddOrUpdate(ItemDto itemDto)
         {
             var isNew = false;
 
@@ -71,12 +74,7 @@
 
             await this._unitOfWork.SaveChangesAsync();
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<ItemDto, Item>().ReverseMap());
-
-            var mapper = new Mapper(config);
-            item = mapper.Map<Item>(itemDto);
-
-            return item;
+            return this._mapper.Map<ItemDto>(item);
         }
 
         #endregion

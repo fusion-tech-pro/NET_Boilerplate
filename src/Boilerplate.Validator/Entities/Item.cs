@@ -2,7 +2,9 @@
 {
     #region << Using >>
 
+    using AutoMapper;
     using Boilerplate.Domain;
+    using JetBrains.Annotations;
 
     #endregion
 
@@ -21,6 +23,23 @@
         public Item()
         {
             Status = Status.New;
+        }
+
+        #endregion
+
+        #region Nested Classes
+
+        [UsedImplicitly]
+        public class ItemProfile : Profile
+        {
+            #region Constructors
+
+            public ItemProfile()
+            {
+                CreateMap<Item, ItemDto>().ReverseMap();
+            }
+
+            #endregion
         }
 
         #endregion
