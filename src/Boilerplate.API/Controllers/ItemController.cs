@@ -27,11 +27,17 @@
 
         #endregion
 
-        [HttpGet]
+        /*[HttpGet]
         public async Task<IActionResult> Get(int? id)
         {
             var item = await this._itemService.GetAsync(id);
             return Ok(item);
+        }*/
+
+        [HttpGet]
+        public async Task Get()
+        {
+            await this._itemService.BackgroundTask();
         }
 
         [HttpPost]

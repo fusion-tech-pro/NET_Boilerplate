@@ -2,9 +2,11 @@
 {
     #region << Using >>
 
+    using System;
     using FluentValidation.AspNetCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using Quartz;
 
     #endregion
 
@@ -33,6 +35,7 @@
             services.AddFluentValidation<TContext>();
             services.AddScrutor<TContext>();
             services.AddAutoMapper(typeof(TContext));
+            services.AddQuartz();
 
             return services;
         }
@@ -43,6 +46,7 @@
             services.AddFluentValidation<TDbContext>();
             services.AddScrutor<TServicesContext>();
             services.AddAutoMapper(typeof(TDbContext));
+            services.AddBoilerplateQuartz();
 
             return services;
         }
@@ -53,6 +57,14 @@
                                   i.FromAssemblyOf<TContext>()
                                    .InjectableAttributes()
                          );
+
+            return services;
+        }
+
+        public static IServiceCollection AddBoilerplateQuartz(this IServiceCollection services, Action<IServiceCollectionQuartzConfigurator> quartzConfig = null)
+        {
+            services.AddQuartz(quartzConfig ?? (q => q.UseMicrosoftDependencyInjectionScopedJobFactory()));
+            services.AddQuartzServer(opt => opt.WaitForJobsToComplete = true);
 
             return services;
         }
