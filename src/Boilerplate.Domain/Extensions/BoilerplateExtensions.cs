@@ -31,13 +31,28 @@
         {
             services.AddUnitOfWork<TContext>(connectionString);
             services.AddFluentValidation<TContext>();
+            services.AddScrutor<TContext>();
+            services.AddAutoMapper(typeof(TContext));
 
             return services;
         }
 
-        public static IServiceCollection AddAutoMapper<TContext>(this IServiceCollection services) where TContext : DbContext
+        public static IServiceCollection AddBoilerplateDependencies<TDbContext, TServicesContext>(this IServiceCollection services, string connectionString) where TDbContext : DbContext
         {
-            services.AddAutoMapper(typeof(TContext));
+            services.AddUnitOfWork<TDbContext>(connectionString);
+            services.AddFluentValidation<TDbContext>();
+            services.AddScrutor<TServicesContext>();
+            services.AddAutoMapper(typeof(TDbContext));
+
+            return services;
+        }
+
+        public static IServiceCollection AddScrutor<TContext>(this IServiceCollection services)
+        {
+            services.Scan(i =>
+                                  i.FromAssemblyOf<TContext>()
+                                   .InjectableAttributes()
+                         );
 
             return services;
         }
