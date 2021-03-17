@@ -2,9 +2,12 @@
 {
     #region << Using >>
 
+    using System;
     using FluentValidation.AspNetCore;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
@@ -13,7 +16,8 @@
 
     public static class BoilerplateExtensions
     {
-        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services, string connectionString) where TContext : DbContext
+        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services, string connectionString)
+                where TContext : DbContext
         {
             services.AddDbContext<TContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IUnitOfWork, UnitOfWork<TContext>>();
@@ -30,24 +34,24 @@
             return services;
         }
 
-        public static IServiceCollection AddBoilerplateDependencies<TContext>(this IServiceCollection services, string connectionString) where TContext : DbContext
+        public static IServiceCollection AddBoilerplateDependencies<TContext>(this IServiceCollection services, string connectionString)
+                where TContext : DbContext
         {
             services.AddUnitOfWork<TContext>(connectionString);
             services.AddFluentValidation<TContext>();
             services.AddScrutor<TContext>();
             services.AddAutoMapper(typeof(TContext));
-            services.AddAuthorizationJWT();
 
             return services;
         }
 
-        public static IServiceCollection AddBoilerplateDependencies<TDbContext, TServicesContext>(this IServiceCollection services, string connectionString) where TDbContext : DbContext
+        public static IServiceCollection AddBoilerplateDependencies<TDbContext, TServicesContext>(this IServiceCollection services, string connectionString)
+                where TDbContext : DbContext
         {
             services.AddUnitOfWork<TDbContext>(connectionString);
             services.AddFluentValidation<TDbContext>();
             services.AddScrutor<TServicesContext>();
             services.AddAutoMapper(typeof(TDbContext));
-            services.AddAuthorizationJWT();
 
             return services;
         }
@@ -62,8 +66,13 @@
             return services;
         }
 
-        public static IServiceCollection AddAuthorizationJWT(this IServiceCollection services)
+        public static IServiceCollection AddAuthorizationJWT<TDbContext, TIdentityUser>(this IServiceCollection services, Action<IdentityOptions> identityOptions = null)
+                where TIdentityUser : IdentityUser
+                where TDbContext : IdentityDbContext<TIdentityUser>
         {
+            services.AddDefaultIdentity<TIdentityUser>(identityOptions ?? (r => { }))
+                    .AddEntityFrameworkStores<TDbContext>();
+
             services.AddAuthorization(auth =>
                                       {
                                           auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()

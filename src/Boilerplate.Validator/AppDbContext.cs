@@ -2,11 +2,13 @@
 {
     #region << Using >>
 
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
     #endregion
 
-    public sealed class AppDbContext : DbContext
+    public sealed class AppDbContext : IdentityDbContext<IdentityUser>
     {
         #region Properties
 
@@ -17,10 +19,7 @@
         #region Constructors
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
-                : base(options)
-        {
-            Database.EnsureCreated();
-        }
+                : base(options) { }
 
         #endregion
     }
