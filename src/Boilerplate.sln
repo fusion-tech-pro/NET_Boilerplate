@@ -13,6 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Services", "Boi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Boilerplate.UI", "Boilerplate.UI", "{A02DCAB8-8D24-4C86-B21B-60ED5BF8D13C}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\auth-app.rar = ..\..\..\auth-app.rar
 		..\..\Front boilerplate\index.html = ..\..\Front boilerplate\index.html
 		..\..\Front boilerplate\simpleCode.js = ..\..\Front boilerplate\simpleCode.js
 		..\..\Front boilerplate\styles.scss = ..\..\Front boilerplate\styles.scss
