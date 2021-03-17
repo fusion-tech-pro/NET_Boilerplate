@@ -3,8 +3,11 @@
     #region << Using >>
 
     using FluentValidation.AspNetCore;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.IdentityModel.Tokens;
 
     #endregion
 
@@ -33,6 +36,7 @@
             services.AddFluentValidation<TContext>();
             services.AddScrutor<TContext>();
             services.AddAutoMapper(typeof(TContext));
+            services.AddAuthorizationJWT();
 
             return services;
         }
@@ -43,6 +47,7 @@
             services.AddFluentValidation<TDbContext>();
             services.AddScrutor<TServicesContext>();
             services.AddAutoMapper(typeof(TDbContext));
+            services.AddAuthorizationJWT();
 
             return services;
         }
@@ -53,6 +58,40 @@
                                   i.FromAssemblyOf<TContext>()
                                    .InjectableAttributes()
                          );
+
+            return services;
+        }
+
+        public static IServiceCollection AddAuthorizationJWT(this IServiceCollection services)
+        {
+            services.AddAuthorization(auth =>
+                                      {
+                                          auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                                                                   .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                                                                   .RequireAuthenticatedUser()
+                                                                   .Build());
+                                      });
+
+            services.AddAuthentication(x => x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(opt =>
+                                  {
+                                      opt.RequireHttpsMetadata = false;
+                                      opt.TokenValidationParameters = new TokenValidationParameters
+                                                                      {
+                                                                              ValidateIssuer = true,
+                                                                              ValidIssuer = Token.ISSUER,
+
+                                                                              ValidateAudience = true,
+                                                                              ValidAudience = Token.AUDIENCE,
+
+                                                                              ValidateLifetime = true,
+
+                                                                              IssuerSigningKey = Token.GetSymmetricSecurityKey(),
+                                                                              ValidateIssuerSigningKey = true
+                                                                      };
+                                  });
 
             return services;
         }
