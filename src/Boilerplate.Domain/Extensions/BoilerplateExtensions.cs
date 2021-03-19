@@ -3,6 +3,7 @@
     #region << Using >>
 
     using FluentValidation.AspNetCore;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -33,6 +34,7 @@
         {
             services.AddUnitOfWork<TContext>(connectionString);
             services.AddFluentValidation<TContext>();
+            services.AddExceptionFilter();
             services.AddScrutor<TContext>();
             services.AddAutoMapper(typeof(TContext));
 
@@ -44,6 +46,7 @@
         {
             services.AddUnitOfWork<TDbContext>(connectionString);
             services.AddFluentValidation<TDbContext>();
+            services.AddExceptionFilter();
             services.AddScrutor<TServicesContext>();
             services.AddAutoMapper(typeof(TDbContext));
 
@@ -58,6 +61,13 @@
                          );
 
             return services;
+        }
+
+        public static IServiceCollection AddExceptionFilter(this IServiceCollection service)
+        {
+            service.AddMvc(opt => opt.Filters.Add(typeof(ExceptionFilter))).SetCompatibilityVersion(CompatibilityVersion.Latest);
+
+            return service;
         }
     }
 }
