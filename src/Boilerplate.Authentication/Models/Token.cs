@@ -1,4 +1,4 @@
-﻿namespace Boilerplate.Domain
+﻿namespace Boilerplate.Authentication
 {
     #region << Using >>
 

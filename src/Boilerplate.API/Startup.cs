@@ -2,6 +2,7 @@ namespace Boilerplate.API
 {
     #region << Using >>
 
+    using Boilerplate.Authentication;
     using Boilerplate.Domain;
     using Boilerplate.Models;
     using Boilerplate.Services;
