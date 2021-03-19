@@ -6,7 +6,7 @@
 
     #endregion
 
-    public class JWTCreditd
+    public class JWTCredits
     {
         #region Properties
 

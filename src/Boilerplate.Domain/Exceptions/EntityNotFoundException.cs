@@ -1,4 +1,4 @@
-﻿namespace Boilerplate.Domain.Exceptions
+﻿namespace Boilerplate.Domain
 {
     #region << Using >>
 

@@ -2,6 +2,7 @@
 {
     #region << Using >>
 
+    using Boilerplate.Authentication;
     using Boilerplate.Domain;
     using FluentValidation;
     using JetBrains.Annotations;
@@ -12,7 +13,7 @@
 
     #endregion
 
-    public class SignUpDto
+    public class SignUpDto : ISignUpDto
     {
         #region Properties
 

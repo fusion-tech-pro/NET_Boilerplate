@@ -4,8 +4,8 @@
 
     using System;
     using System.Threading.Tasks;
+    using Boilerplate.Authentication;
     using Boilerplate.Models;
-    using Boilerplate.Services;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -34,11 +34,9 @@
         [HttpPost("signin")]
         public async Task<IActionResult> SignIn([FromBody] SignInDto signInDto)
         {
-            if (!await this._authService.SignIn(signInDto))
+            var response = await this._authService.SignIn(signInDto);
+            if (response == null)
                 return Unauthorized();
-
-            var user = await this._authService.GetUserByEmail(signInDto.Email);
-            var response = this._authService.GenerateToken(user);
 
             return Ok(response);
         }
@@ -46,11 +44,9 @@
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp([FromBody] SignUpDto signUpDto)
         {
-            if (!await this._authService.Register(signUpDto))
+            var response = await this._authService.SignUp(signUpDto);
+            if (response == null)
                 return Unauthorized();
-
-            var user = await this._authService.GetUserByEmail(signUpDto.Email);
-            var response = this._authService.GenerateToken(user);
 
             return Ok(response);
         }

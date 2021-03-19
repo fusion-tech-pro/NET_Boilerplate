@@ -3,7 +3,6 @@
     #region << Using >>
 
     using System;
-    using Boilerplate.Services;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -19,7 +18,8 @@
                 where TIdentityUser : IdentityUser
                 where TDbContext : IdentityDbContext<TIdentityUser>
         {
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuthService, AuthService>();
+
             services.AddDefaultIdentity<TIdentityUser>(identityOptions ?? (r => { }))
                     .AddEntityFrameworkStores<TDbContext>();
 
