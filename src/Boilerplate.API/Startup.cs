@@ -11,6 +11,7 @@ namespace Boilerplate.API
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Serilog;
 
     #endregion
 
@@ -62,6 +63,8 @@ namespace Boilerplate.API
                                    .AllowAnyOrigin()
                                    .AllowAnyMethod()
                                    .AllowAnyHeader());
+
+            app.UseSerilogRequestLogging();
 
             app.UseEndpoints(endpoints =>
                              {
