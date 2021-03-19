@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Boilerplate.Domain;
+    using Boilerplate.Domain.Exceptions;
     using Boilerplate.Models;
     using JetBrains.Annotations;
     using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,9 @@
             var spec = id.HasValue ? new FindByIdSpec<Item>(id.Value) : null;
             var items = await this._unitOfWork.Repository<Item>().Get(spec).ToArrayAsync();
 
+            if (items != null && id.HasValue)
+                throw new EntityNotFoundException(nameof(items), id);
+
             return this._mapper.Map<ItemDto[]>(items);
         }
 
@@ -62,6 +66,9 @@
             var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
 
             if (item == null)
+                throw new EntityNotFoundException(nameof(item), itemDto.Id);
+
+            if (itemDto.Id == null)
             {
                 isNew = true;
                 item = new Item();
