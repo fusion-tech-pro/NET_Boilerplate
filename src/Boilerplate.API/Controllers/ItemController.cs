@@ -41,13 +41,6 @@
             return Ok("ok");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update([FromBody] ItemDto item)
-        {
-            await this._itemService.AddOrUpdate(item);
-            return Ok("ok");
-        }
-
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {

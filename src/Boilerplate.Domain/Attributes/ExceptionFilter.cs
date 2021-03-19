@@ -20,7 +20,7 @@
             if (context.Exception is EntityNotFoundException)
                 statusCode = HttpStatusCode.NotFound;
 
-            context.HttpContext.Response.ContentType = "application/json";
+            context.HttpContext.Response.ContentType = Constants.HttpContentType.ContentType;;
             context.HttpContext.Response.StatusCode = (int)statusCode;
 
             context.Result = new JsonResult(new
