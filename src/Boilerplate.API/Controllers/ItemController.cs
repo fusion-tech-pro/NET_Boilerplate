@@ -7,6 +7,7 @@
     using Boilerplate.Models;
     using Boilerplate.Services;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
 
     #endregion
 
@@ -16,12 +17,16 @@
 
         private readonly IItemService _itemService;
 
+        private readonly ILogger<ItemController> _logger;
+
         #endregion
 
         #region Constructors
 
-        public ItemController(IItemService itemService)
+        public ItemController(IItemService itemService,
+                              ILogger<ItemController> logger)
         {
+            this._logger = logger;
             this._itemService = itemService ?? throw new ArgumentNullException(nameof(itemService));
         }
 
@@ -30,6 +35,7 @@
         /*[HttpGet]
         public async Task<IActionResult> Get(int? id)
         {
+            this._logger.LogInformation("Test Item Controller..");
             var item = await this._itemService.GetAsync(id);
             return Ok(item);
         }*/
@@ -44,13 +50,6 @@
         public async Task<IActionResult> Post([FromBody] ItemDto itemDto)
         {
             await this._itemService.AddOrUpdate(itemDto);
-            return Ok("ok");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Update([FromBody] ItemDto item)
-        {
-            await this._itemService.AddOrUpdate(item);
             return Ok("ok");
         }
 

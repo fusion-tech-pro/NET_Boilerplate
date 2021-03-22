@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="4.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.MariaDB" Version="1.0.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj" />
     <ProjectReference Include="..\Boilerplate.Services\Boilerplate.Services.csproj" />
     <ProjectReference Include="..\Boilerplate.Validator\Boilerplate.Models.csproj" />
