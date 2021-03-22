@@ -14,7 +14,5 @@
         Task Delete(int id);
 
         Task<ItemDto[]> GetAsync(int? id);
-
-        Task BackgroundTask();
     }
 }

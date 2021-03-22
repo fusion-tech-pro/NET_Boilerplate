@@ -11,7 +11,6 @@
     using JetBrains.Annotations;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Quartz;
 
     #endregion
 
@@ -25,17 +24,14 @@
 
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly IScheduler scheduler;
-
         #endregion
 
         #region Constructors
 
-        public ItemService(IUnitOfWork unitOfWork, IMapper mapper, IScheduler scheduler)
+        public ItemService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
-            this.scheduler = scheduler;
         }
 
         #endregion
@@ -90,24 +86,6 @@
             await this._unitOfWork.SaveChangesAsync();
 
             return this._mapper.Map<ItemDto>(item);
-        }
-
-        public async Task BackgroundTask()
-        {
-            var @group = "group";
-            var job = JobBuilder.Create<TestJob>()
-                                .WithIdentity("job", @group)
-                                .Build();
-
-            var trigger = TriggerBuilder.Create()
-                                        .WithIdentity("trigger", @group)
-                                        .StartNow()
-                                        .WithSimpleSchedule(x => x
-                                                                 .WithIntervalInSeconds(10)
-                                                                 .RepeatForever())
-                                        .Build();
-
-            await this.scheduler.ScheduleJob(job, trigger);
         }
 
         #endregion

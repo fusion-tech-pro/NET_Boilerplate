@@ -2,7 +2,6 @@
 {
     #region << Using >>
 
-    using System;
     using FluentValidation.AspNetCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -57,14 +56,6 @@
                                   i.FromAssemblyOf<TContext>()
                                    .InjectableAttributes()
                          );
-
-            return services;
-        }
-
-        public static IServiceCollection AddBoilerplateQuartz(this IServiceCollection services, Action<IServiceCollectionQuartzConfigurator> quartzConfig = null)
-        {
-            services.AddQuartz(quartzConfig ?? (q => q.UseMicrosoftDependencyInjectionScopedJobFactory()));
-            services.AddQuartzServer(opt => opt.WaitForJobsToComplete = true);
 
             return services;
         }
