@@ -5,6 +5,7 @@ namespace Boilerplate.API
     using Boilerplate.Domain;
     using Boilerplate.Models;
     using Boilerplate.Services;
+    using Boilerplate.Utilities;
     using JetBrains.Annotations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -35,6 +36,7 @@ namespace Boilerplate.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddEmailSender();
             services.AddControllersWithViews();
             services.AddCors();
         }
