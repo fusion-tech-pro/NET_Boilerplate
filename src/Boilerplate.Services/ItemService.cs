@@ -6,7 +6,6 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Boilerplate.Domain;
-    using Boilerplate.Domain.Exceptions;
     using Boilerplate.Models;
     using JetBrains.Annotations;
     using Microsoft.EntityFrameworkCore;
@@ -65,7 +64,7 @@
             var spec = new FindByIdSpec<Item>(itemDto.Id.GetValueOrDefault());
             var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
 
-            if (item == null)
+            if (item == null && itemDto.Id.HasValue)
                 throw new EntityNotFoundException(nameof(item), itemDto.Id);
 
             if (itemDto.Id == null)

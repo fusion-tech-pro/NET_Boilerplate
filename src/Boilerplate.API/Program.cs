@@ -4,6 +4,7 @@ namespace Boilerplate.API
 
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
+    using Quartz;
     using Serilog;
 
     #endregion
@@ -26,7 +27,13 @@ namespace Boilerplate.API
                                    {
                                        loggerConfiguration
                                                .ReadFrom.Configuration(hostingContext.Configuration);
-                                   }, writeToProviders: true);
+                                   }, writeToProviders: true)
+                       .ConfigureServices((hostContext, services) =>
+                                          {
+                                              services.AddQuartz(q => { q.UseMicrosoftDependencyInjectionScopedJobFactory(); });
+
+                                              services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+                                          });
         }
     }
 }

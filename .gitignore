@@ -245,3 +245,4 @@ src/Boilerplate.Validator/Boilerplate.Models.csproj.DotSettings
 src/Boilerplate.Domain/Boilerplate.Domain.csproj.DotSettings
 src/Boilerplate.Services/Boilerplate.Services.csproj.DotSettings
 src/Boilerplate.Authentication/Boilerplate.Authentication.csproj.DotSettings
+src/Boilerplate.Utilities/Boilerplate.Utilities.csproj.DotSettings
