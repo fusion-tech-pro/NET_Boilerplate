@@ -41,7 +41,7 @@
 
                        {
                                Email = signUpDto.Email,
-                               UserName = signUpDto.UserName == "" ? signUpDto.Email : signUpDto.UserName
+                               UserName = string.IsNullOrWhiteSpace(signUpDto.UserName) ? signUpDto.Email : signUpDto.UserName
                        };
 
             var result = await this._userManager.CreateAsync(user, signUpDto.Password);
@@ -50,8 +50,6 @@
                 return null;
 
             await this._signInManager.SignInAsync(user, false);
-
-            var getUser = await this._userManager.FindByEmailAsync(signUpDto.Email);
 
             return GenerateToken(user);
         }

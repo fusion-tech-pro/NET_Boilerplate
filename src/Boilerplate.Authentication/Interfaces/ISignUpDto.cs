@@ -4,11 +4,11 @@
     {
         #region Properties
 
-        public string Email { get; set; }
+        string Email { get; set; }
 
-        public string Password { get; set; }
+        string Password { get; set; }
 
-        public string UserName { get; set; }
+        string UserName { get; set; }
 
         #endregion
     }
