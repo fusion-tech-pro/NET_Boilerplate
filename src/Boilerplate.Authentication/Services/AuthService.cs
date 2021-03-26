@@ -7,17 +7,11 @@
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using Boilerplate.Domain;
-    using Boilerplate.Models;
-    using JetBrains.Annotations;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
 
     #endregion
 
-    [Injectable(ServiceLifetime.Scoped)]
-    [UsedImplicitly]
     public class AuthService : IAuthService
     {
         #region Properties
@@ -47,7 +41,7 @@
 
                        {
                                Email = signUpDto.Email,
-                               UserName = signUpDto.Email
+                               UserName = signUpDto.UserName == "" ? signUpDto.Email : signUpDto.UserName
                        };
 
             var result = await this._userManager.CreateAsync(user, signUpDto.Password);
@@ -57,10 +51,9 @@
 
             await this._signInManager.SignInAsync(user, false);
 
-            var getUser = await GetUserByEmail(signUpDto.Email);
-            var response = GenerateToken(getUser);
+            var getUser = await this._userManager.FindByEmailAsync(signUpDto.Email);
 
-            return response;
+            return GenerateToken(user);
         }
 
         public async Task<JWTCredits> SignIn<T>(T signInDto) where T : ISignInDto
@@ -77,31 +70,12 @@
 
             await this._signInManager.SignInAsync(user, false);
 
-            var getUser = await GetUserByEmail(signInDto.Email);
-            var response = GenerateToken(getUser);
-
-            return response;
+            return GenerateToken(user);
         }
 
         #endregion
 
-        private async Task<UserDto> GetUserByEmail(string email)
-        {
-            var user = await this._userManager.FindByEmailAsync(email);
-
-            if (user == null)
-                throw new ArgumentNullException();
-
-            var userDto = new UserDto
-                          {
-                                  Email = user.Email,
-                                  Id = user.Id
-                          };
-
-            return userDto;
-        }
-
-        private JWTCredits GenerateToken(UserDto user)
+        private JWTCredits GenerateToken(IdentityUser user)
         {
             var identity = GetIdentity(user);
             var now = DateTime.UtcNow;
@@ -117,16 +91,14 @@
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            var response = new JWTCredits
-                           {
-                                   EncodedJwt = encodedJwt,
-                                   ExpiredDate = expiredDate
-                           };
-
-            return response;
+            return new JWTCredits
+                   {
+                           EncodedJwt = encodedJwt,
+                           ExpiredDate = expiredDate
+                   };
         }
 
-        private ClaimsIdentity GetIdentity(UserDto user)
+        private ClaimsIdentity GetIdentity(IdentityUser user)
         {
             var claims = new List<Claim>
                          {
@@ -134,10 +106,8 @@
                                  new Claim("id", user.Id)
                          };
 
-            var claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                                                    ClaimsIdentity.DefaultRoleClaimType);
-
-            return claimsIdentity;
+            return new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                                      ClaimsIdentity.DefaultRoleClaimType);
         }
     }
 }

@@ -23,6 +23,8 @@
 
         public string ConfirmPassword { get; set; }
 
+        public string UserName { get; set; }
+
         #endregion
 
         #region Nested Classes

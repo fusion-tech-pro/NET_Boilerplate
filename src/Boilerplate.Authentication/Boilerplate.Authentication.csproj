@@ -13,9 +13,4 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj" />
-    <ProjectReference Include="..\Boilerplate.Validator\Boilerplate.Models.csproj" />
-  </ItemGroup>
-
 </Project>
