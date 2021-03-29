@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj" />
+    <ProjectReference Include="..\Boilerplate.Utilities\Boilerplate.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

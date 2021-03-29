@@ -36,7 +36,7 @@ namespace Boilerplate.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddEmailSender();
+            services.AddEmailSender("akartashova.itp@gmail.com", "******", "smtp.gmail.com", 465, true, true);
             services.AddControllersWithViews();
             services.AddCors();
         }

@@ -2,11 +2,13 @@
 {
     #region << Using >>
 
-    using System.Reflection;
+    #region << Using >>
+
     using System.Threading.Tasks;
     using Boilerplate.API.Templates;
-    using Boilerplate.Utilities.Models;
-    using FluentEmail.Core;
+    using Boilerplate.Models;
+    using Boilerplate.Utilities;
+    using FluentEmail.Core.Models;
     using Microsoft.AspNetCore.Mvc;
 
     #endregion
@@ -15,23 +17,33 @@
 
     #endregion
 
+    #endregion
+
     [Route("api/email")]
     [ApiController]
     public class EmailController : ControllerBase
     {
-        #region Constants
+        #region Properties
 
-        private const string template = "Boilerplate.API.Templates.HelloWorldTemplate.cshtml";
+        private readonly IEmailService _emailService;
+
+        #endregion
+
+        #region Constructors
+
+        public EmailController(IEmailService emailService)
+        {
+            this._emailService = emailService;
+        }
 
         #endregion
 
         [HttpPost("email-sender")]
-        public async Task SendEmailAsync([FromServices] IFluentEmail email, EmailModel emailModel)
+        public async Task<SendResponse> SendEmailAsync(EmailDto emailDto)
         {
-            await email.To(emailModel.Email)
-                       .Subject("test")
-                       .UsingTemplateFromEmbedded(template, new HelloWorldViewModel { Name = emailModel.Name }, GetType().GetTypeInfo().Assembly)
-                       .SendAsync();
+            var model = new HelloWorldTemplate { Name = emailDto.UserName };
+
+            return await this._emailService.SendEmailWithTemplateAsync(emailDto.MailTo, emailDto.Subject, model);
         }
     }
 }

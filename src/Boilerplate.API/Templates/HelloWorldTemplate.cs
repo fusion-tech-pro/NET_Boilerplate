@@ -1,6 +1,6 @@
 ﻿namespace Boilerplate.API.Templates
 {
-    public class HelloWorldViewModel
+    public class HelloWorldTemplate
     {
         #region Properties
 
