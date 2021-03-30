@@ -2,11 +2,9 @@
 {
     #region << Using >>
 
-    using Boilerplate.Utilities;
-
     #endregion
 
-    public class EmailDto : IEmailModel
+    public class EmailDto
     {
         #region Properties
 
