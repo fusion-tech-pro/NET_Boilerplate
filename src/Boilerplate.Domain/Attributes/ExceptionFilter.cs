@@ -4,7 +4,6 @@
 
     using System;
     using System.Net;
-    using Boilerplate.Domain.Exceptions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -20,7 +19,8 @@
             if (context.Exception is EntityNotFoundException)
                 statusCode = HttpStatusCode.NotFound;
 
-            context.HttpContext.Response.ContentType = Constants.HttpContentType.ContentType;;
+            context.HttpContext.Response.ContentType = Constants.HttpContentType.ContentType;
+            ;
             context.HttpContext.Response.StatusCode = (int)statusCode;
 
             context.Result = new JsonResult(new

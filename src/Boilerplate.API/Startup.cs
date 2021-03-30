@@ -2,12 +2,14 @@ namespace Boilerplate.API
 {
     #region << Using >>
 
+    using Boilerplate.Authentication;
     using Boilerplate.Domain;
     using Boilerplate.Models;
     using Boilerplate.Services;
     using JetBrains.Annotations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -35,6 +37,7 @@ namespace Boilerplate.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddAuthorizationJWT<AppDbContext, IdentityUser>();
             services.AddControllersWithViews();
             services.AddCors();
         }
@@ -57,6 +60,7 @@ namespace Boilerplate.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors(builder => builder

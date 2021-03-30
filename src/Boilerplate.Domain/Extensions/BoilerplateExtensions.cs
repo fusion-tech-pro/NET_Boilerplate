@@ -11,7 +11,8 @@
 
     public static class BoilerplateExtensions
     {
-        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services, string connectionString) where TContext : DbContext
+        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services, string connectionString)
+                where TContext : DbContext
         {
             services.AddDbContext<TContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IUnitOfWork, UnitOfWork<TContext>>();
@@ -28,7 +29,8 @@
             return services;
         }
 
-        public static IServiceCollection AddBoilerplateDependencies<TContext>(this IServiceCollection services, string connectionString) where TContext : DbContext
+        public static IServiceCollection AddBoilerplateDependencies<TContext>(this IServiceCollection services, string connectionString)
+                where TContext : DbContext
         {
             services.AddUnitOfWork<TContext>(connectionString);
             services.AddFluentValidation<TContext>();
@@ -39,7 +41,8 @@
             return services;
         }
 
-        public static IServiceCollection AddBoilerplateDependencies<TDbContext, TServicesContext>(this IServiceCollection services, string connectionString) where TDbContext : DbContext
+        public static IServiceCollection AddBoilerplateDependencies<TDbContext, TServicesContext>(this IServiceCollection services, string connectionString)
+                where TDbContext : DbContext
         {
             services.AddUnitOfWork<TDbContext>(connectionString);
             services.AddFluentValidation<TDbContext>();
