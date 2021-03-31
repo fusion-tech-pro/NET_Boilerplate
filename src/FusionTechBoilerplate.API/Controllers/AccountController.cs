@@ -1,4 +1,4 @@
-﻿namespace Boilerplate.API
+﻿namespace FusionTechBoilerplate.API
 {
     #region << Using >>
 

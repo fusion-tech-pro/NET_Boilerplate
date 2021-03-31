@@ -1,4 +1,4 @@
-﻿namespace Boilerplate.API.Templates
+﻿namespace FusionTechBoilerplate.API.Templates
 {
     public class HelloWorldTemplate
     {

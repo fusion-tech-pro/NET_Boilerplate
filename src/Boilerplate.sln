@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.API", "Boilerplate.API\Boilerplate.API.csproj", "{39980927-66CA-4962-B474-402527EFB400}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FusionTechBoilerplate.API", "FusionTechBoilerplate.API\FusionTechBoilerplate.API.csproj", "{39980927-66CA-4962-B474-402527EFB400}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FusionTechBoilerplate.Domain", "FusionTechBoilerplate.Domain\FusionTechBoilerplate.Domain.csproj", "{F9C09DA7-3DF6-4491-9A42-D52FBB9D9B4D}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FusionTechBoilerplate.Model
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FusionTechBoilerplate.Services", "FusionTechBoilerplate.Services\FusionTechBoilerplate.Services.csproj", "{0871E7A7-321D-427C-99FA-0B80C9B11106}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Boilerplate.UI", "Boilerplate.UI", "{A02DCAB8-8D24-4C86-B21B-60ED5BF8D13C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FusionTechBoilerplate.UI", "FusionTechBoilerplate.UI", "{A02DCAB8-8D24-4C86-B21B-60ED5BF8D13C}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\..\auth-app.rar = ..\..\..\auth-app.rar
 		..\..\Front boilerplate\index.html = ..\..\Front boilerplate\index.html

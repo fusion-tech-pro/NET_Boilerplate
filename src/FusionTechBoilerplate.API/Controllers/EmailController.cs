@@ -1,12 +1,12 @@
-﻿namespace Boilerplate.API
+﻿namespace FusionTechBoilerplate.API
 {
     #region << Using >>
 
     #region << Using >>
 
     using System.Threading.Tasks;
-    using Boilerplate.API.Templates;
     using FluentEmail.Core.Models;
+    using FusionTechBoilerplate.API.Templates;
     using FusionTechBoilerplate.Models;
     using FusionTechBoilerplate.Utilities;
     using Microsoft.AspNetCore.Mvc;
