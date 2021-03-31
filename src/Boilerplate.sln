@@ -13,12 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Services", "Boi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Boilerplate.UI", "Boilerplate.UI", "{A02DCAB8-8D24-4C86-B21B-60ED5BF8D13C}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\auth-app.rar = ..\..\..\auth-app.rar
 		..\..\Front boilerplate\index.html = ..\..\Front boilerplate\index.html
 		..\..\Front boilerplate\simpleCode.js = ..\..\Front boilerplate\simpleCode.js
 		..\..\Front boilerplate\styles.scss = ..\..\Front boilerplate\styles.scss
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Utilities", "Boilerplate.Utilities\Boilerplate.Utilities.csproj", "{2E77B9D6-0105-4177-8A1B-2A5E972F1E42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.Authentication", "Boilerplate.Authentication\Boilerplate.Authentication.csproj", "{B0A3D5A7-9517-421B-A96A-F9F5694DB7E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +49,10 @@ Global
 		{2E77B9D6-0105-4177-8A1B-2A5E972F1E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E77B9D6-0105-4177-8A1B-2A5E972F1E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E77B9D6-0105-4177-8A1B-2A5E972F1E42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0A3D5A7-9517-421B-A96A-F9F5694DB7E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0A3D5A7-9517-421B-A96A-F9F5694DB7E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0A3D5A7-9517-421B-A96A-F9F5694DB7E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0A3D5A7-9517-421B-A96A-F9F5694DB7E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

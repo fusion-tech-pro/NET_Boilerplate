@@ -2,6 +2,7 @@ namespace Boilerplate.API
 {
     #region << Using >>
 
+    using Boilerplate.Authentication;
     using Boilerplate.Domain;
     using Boilerplate.Models;
     using Boilerplate.Services;
@@ -9,6 +10,7 @@ namespace Boilerplate.API
     using JetBrains.Annotations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -37,6 +39,7 @@ namespace Boilerplate.API
         {
             services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"));
             services.AddEmailSender("akartashova.itp@gmail.com", "******", "smtp.gmail.com", 465, true, true);
+            services.AddAuthorizationJWT<AppDbContext, IdentityUser>();
             services.AddControllersWithViews();
             services.AddCors();
         }
@@ -59,6 +62,7 @@ namespace Boilerplate.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors(builder => builder

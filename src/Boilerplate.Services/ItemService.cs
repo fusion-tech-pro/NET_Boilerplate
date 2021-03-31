@@ -6,7 +6,6 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Boilerplate.Domain;
-    using Boilerplate.Domain.Exceptions;
     using Boilerplate.Models;
     using JetBrains.Annotations;
     using Microsoft.EntityFrameworkCore;
