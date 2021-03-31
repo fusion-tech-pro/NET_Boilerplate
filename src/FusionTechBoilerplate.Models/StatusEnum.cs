@@ -1,4 +1,4 @@
-﻿namespace Boilerplate.Models
+﻿namespace FusionTechBoilerplate.Models
 {
     #region Nested Classes
 

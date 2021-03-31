@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj" />
-    <ProjectReference Include="..\Boilerplate.Validator\Boilerplate.Models.csproj" />
+    <ProjectReference Include="..\FusionTechBoilerplate.Models\FusionTechBoilerplate.Models.csproj" />
   </ItemGroup>
 
 </Project>

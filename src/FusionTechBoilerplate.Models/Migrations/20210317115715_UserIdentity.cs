@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace Boilerplate.Models.Migrations
+﻿namespace FusionTechBoilerplate.Models.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class UserIdentity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

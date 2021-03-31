@@ -3,7 +3,7 @@
     #region << Using >>
 
     using System.Threading.Tasks;
-    using Boilerplate.Models;
+    using FusionTechBoilerplate.Models;
 
     #endregion
 

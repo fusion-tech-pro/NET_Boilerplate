@@ -4,8 +4,8 @@
 
     using System;
     using System.Threading.Tasks;
-    using Boilerplate.Models;
     using Boilerplate.Services;
+    using FusionTechBoilerplate.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 

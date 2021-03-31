@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Boilerplate.Domain;
-    using Boilerplate.Models;
+    using FusionTechBoilerplate.Models;
     using JetBrains.Annotations;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -51,7 +51,7 @@
             var spec = id.HasValue ? new FindByIdSpec<Item>(id.Value) : null;
             var items = await this._unitOfWork.Repository<Item>().Get(spec).ToArrayAsync();
 
-            if (items != null && id.HasValue)
+            if (items == null && id.HasValue)
                 throw new EntityNotFoundException(nameof(items), id);
 
             return this._mapper.Map<ItemDto[]>(items);
