@@ -6,9 +6,9 @@
 
     using System.Threading.Tasks;
     using Boilerplate.API.Templates;
-    using Boilerplate.Utilities;
     using FluentEmail.Core.Models;
     using FusionTechBoilerplate.Models;
+    using FusionTechBoilerplate.Utilities;
     using Microsoft.AspNetCore.Mvc;
 
     #endregion

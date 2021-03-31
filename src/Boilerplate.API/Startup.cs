@@ -5,8 +5,8 @@ namespace Boilerplate.API
     using Boilerplate.Authentication;
     using Boilerplate.Domain;
     using Boilerplate.Services;
-    using Boilerplate.Utilities;
     using FusionTechBoilerplate.Models;
+    using FusionTechBoilerplate.Utilities;
     using JetBrains.Annotations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -38,7 +38,7 @@ namespace Boilerplate.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddEmailSender("akartashova.itp@gmail.com", "******", "smtp.gmail.com", 465, true, true);
+            services.AddEmailSender("akartashova.itp@gmail.com", "consolelog123", "smtp.gmail.com", 465, true, true);
             services.AddAuthorizationJWT<AppDbContext, IdentityUser>();
             services.AddControllersWithViews();
             services.AddCors();

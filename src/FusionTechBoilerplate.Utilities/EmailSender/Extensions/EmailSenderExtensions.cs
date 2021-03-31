@@ -1,4 +1,4 @@
-﻿namespace Boilerplate.Utilities
+﻿namespace FusionTechBoilerplate.Utilities
 {
     #region << Using >>
 
