@@ -249,3 +249,5 @@ src/Boilerplate.Utilities/Boilerplate.Utilities.csproj.DotSettings
 src/FusionTechBoilerplate.Utilities/FusionTechBoilerplate.Utilities.csproj.DotSettings
 src/FusionTechBoilerplate.Services/FusionTechBoilerplate.Services.csproj.DotSettings
 src/FusionTechBoilerplate.Services/Boilerplate.Services.csproj.DotSettings
+src/FusionTechBoilerplate.Domain/Boilerplate.Domain.csproj.DotSettings
+src/FusionTechBoilerplate.Domain/FusionTechBoilerplate.Domain.csproj.DotSettings

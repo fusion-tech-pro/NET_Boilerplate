@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.API", "Boilerplate.API\Boilerplate.API.csproj", "{39980927-66CA-4962-B474-402527EFB400}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Domain", "Boilerplate.Domain\Boilerplate.Domain.csproj", "{F9C09DA7-3DF6-4491-9A42-D52FBB9D9B4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FusionTechBoilerplate.Domain", "FusionTechBoilerplate.Domain\FusionTechBoilerplate.Domain.csproj", "{F9C09DA7-3DF6-4491-9A42-D52FBB9D9B4D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FusionTechBoilerplate.Models", "FusionTechBoilerplate.Models\FusionTechBoilerplate.Models.csproj", "{54491F96-961E-427C-A721-3FE34E9A1D1A}"
 EndProject

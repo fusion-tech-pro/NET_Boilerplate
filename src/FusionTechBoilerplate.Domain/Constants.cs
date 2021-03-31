@@ -1,4 +1,4 @@
-﻿namespace Boilerplate.Domain
+﻿namespace FusionTechBoilerplate.Domain
 {
     public abstract class Constants
     {

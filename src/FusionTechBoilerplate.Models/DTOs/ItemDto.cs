@@ -5,6 +5,7 @@
     using System;
     using Boilerplate.Domain;
     using FluentValidation;
+    using FusionTechBoilerplate.Domain;
     using JetBrains.Annotations;
 
     #endregion

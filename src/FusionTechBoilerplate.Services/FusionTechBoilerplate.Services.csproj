@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj" />
+    <ProjectReference Include="..\FusionTechBoilerplate.Domain\FusionTechBoilerplate.Domain.csproj" />
     <ProjectReference Include="..\FusionTechBoilerplate.Models\FusionTechBoilerplate.Models.csproj" />
   </ItemGroup>
 
