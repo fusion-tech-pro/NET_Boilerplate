@@ -4,7 +4,7 @@
 
     using System;
     using System.Threading.Tasks;
-    using Boilerplate.Authentication;
+    using FusionTechBoilerplate.Authentication;
     using FusionTechBoilerplate.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

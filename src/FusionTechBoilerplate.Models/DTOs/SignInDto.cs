@@ -2,9 +2,9 @@
 {
     #region << Using >>
 
-    using Boilerplate.Authentication;
     using Boilerplate.Domain;
     using FluentValidation;
+    using FusionTechBoilerplate.Authentication;
     using FusionTechBoilerplate.Domain;
     using JetBrains.Annotations;
 

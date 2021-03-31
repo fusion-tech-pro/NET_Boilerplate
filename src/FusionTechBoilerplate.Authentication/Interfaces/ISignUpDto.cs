@@ -1,4 +1,4 @@
-﻿namespace Boilerplate.Authentication
+﻿namespace FusionTechBoilerplate.Authentication
 {
     public interface ISignUpDto
     {

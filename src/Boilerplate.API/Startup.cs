@@ -2,8 +2,8 @@ namespace Boilerplate.API
 {
     #region << Using >>
 
-    using Boilerplate.Authentication;
     using Boilerplate.Domain;
+    using FusionTechBoilerplate.Authentication;
     using FusionTechBoilerplate.Models;
     using FusionTechBoilerplate.Services;
     using FusionTechBoilerplate.Utilities;
