@@ -64,7 +64,7 @@
             var spec = new FindByIdSpec<Item>(itemDto.Id.GetValueOrDefault());
             var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
 
-            if (item == null)
+            if (item == null && itemDto.Id.HasValue)
                 throw new EntityNotFoundException(nameof(item), itemDto.Id);
 
             if (itemDto.Id == null)
