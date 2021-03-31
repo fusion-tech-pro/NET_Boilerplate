@@ -1,10 +1,9 @@
-﻿namespace Boilerplate.Domain
+﻿namespace FusionTechBoilerplate.Domain
 {
     #region << Using >>
 
     using System;
     using System.Net;
-    using FusionTechBoilerplate.Domain;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 

@@ -2,7 +2,7 @@ namespace FusionTechBoilerplate.API
 {
     #region << Using >>
 
-    using Boilerplate.Domain;
+    using FusionTechBoilerplate.Domain;
     using FusionTechBoilerplate.Authentication;
     using FusionTechBoilerplate.Models;
     using FusionTechBoilerplate.Services;
@@ -38,7 +38,7 @@ namespace FusionTechBoilerplate.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddEmailSender("akartashova.itp@gmail.com", "consolelog123", "smtp.gmail.com", 465, true, true);
+            services.AddEmailSender("akartashova.itp@gmail.com", "******", "smtp.gmail.com", 465, true, true);
             services.AddAuthorizationJWT<AppDbContext, IdentityUser>();
             services.AddControllersWithViews();
             services.AddCors();

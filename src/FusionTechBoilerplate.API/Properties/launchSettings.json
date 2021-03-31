@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Boilerplate.API": {
+    "FusionTechBoilerplate.API": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

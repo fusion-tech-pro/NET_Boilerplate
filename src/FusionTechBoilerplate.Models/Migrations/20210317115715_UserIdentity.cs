@@ -1,4 +1,4 @@
-﻿namespace FusionTechBoilerplate.Models.Migrations
+﻿namespace FusionTechBoilerplate.Models
 {
     using System;
     using Microsoft.EntityFrameworkCore.Migrations;

@@ -5,7 +5,7 @@
     using System;
     using System.Threading.Tasks;
     using AutoMapper;
-    using Boilerplate.Domain;
+    using FusionTechBoilerplate.Domain;
     using FusionTechBoilerplate.Models;
     using JetBrains.Annotations;
     using Microsoft.EntityFrameworkCore;

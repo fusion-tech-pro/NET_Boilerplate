@@ -3,7 +3,7 @@
     #region << Using >>
 
     using AutoMapper;
-    using Boilerplate.Domain;
+    using FusionTechBoilerplate.Domain;
     using JetBrains.Annotations;
 
     #endregion

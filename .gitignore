@@ -253,3 +253,5 @@ src/FusionTechBoilerplate.Domain/Boilerplate.Domain.csproj.DotSettings
 src/FusionTechBoilerplate.Domain/FusionTechBoilerplate.Domain.csproj.DotSettings
 src/FusionTechBoilerplate.API/FusionTechBoilerplate.API.csproj.DotSettings
 src/FusionTechBoilerplate.API/Boilerplate.API.csproj.DotSettings
+src/FusionTechBoilerplate.Authentication/FusionTechBoilerplate.Authentication.csproj.DotSettings
+src/FusionTechBoilerplate.Models/FusionTechBoilerplate.Models.csproj.DotSettings
