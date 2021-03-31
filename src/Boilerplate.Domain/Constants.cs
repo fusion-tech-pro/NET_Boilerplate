@@ -24,6 +24,15 @@
             #endregion
         }
 
+        public abstract class FileExtensions
+        {
+            #region Constants
+
+            public const string cshtml = "cshtml";
+
+            #endregion
+        }
+
         #endregion
     }
 }
