@@ -28,7 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Boilerplate.Authentication\Boilerplate.Authentication.csproj" />
     <ProjectReference Include="..\Boilerplate.Domain\Boilerplate.Domain.csproj" />
-    <ProjectReference Include="..\Boilerplate.Services\Boilerplate.Services.csproj" />
+    <ProjectReference Include="..\FusionTechBoilerplate.Services\FusionTechBoilerplate.Services.csproj" />
     <ProjectReference Include="..\FusionTechBoilerplate.Utilities\FusionTechBoilerplate.Utilities.csproj" />
     <ProjectReference Include="..\FusionTechBoilerplate.Models\FusionTechBoilerplate.Models.csproj" />
   </ItemGroup>

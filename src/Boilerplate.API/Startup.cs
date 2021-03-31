@@ -4,8 +4,8 @@ namespace Boilerplate.API
 
     using Boilerplate.Authentication;
     using Boilerplate.Domain;
-    using Boilerplate.Services;
     using FusionTechBoilerplate.Models;
+    using FusionTechBoilerplate.Services;
     using FusionTechBoilerplate.Utilities;
     using JetBrains.Annotations;
     using Microsoft.AspNetCore.Builder;
