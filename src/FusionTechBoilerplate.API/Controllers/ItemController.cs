@@ -11,6 +11,8 @@
 
     #endregion
 
+    [Route("api/item")]
+    [ApiController]
     public class ItemController : Controller
     {
         #region Properties
@@ -32,7 +34,7 @@
 
         #endregion
 
-        [HttpGet]
+        [HttpGet("get")]
         public async Task<IActionResult> Get(int? id)
         {
             this._logger.LogInformation("Test Item Controller..");
@@ -40,21 +42,21 @@
             return Ok(item);
         }
 
-        [HttpPost]
+        [HttpPost("post")]
         public async Task<IActionResult> Post([FromBody] ItemDto itemDto)
         {
             await this._itemService.AddOrUpdate(itemDto);
             return Ok("ok");
         }
 
-        [HttpDelete]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await this._itemService.Delete(id);
             return Ok("ok");
         }
 
-        [HttpPut]
+        [HttpPut("put")]
         public async Task<IActionResult> Put([FromBody] ItemDto item)
         {
             await this._itemService.AddOrUpdate(item);
