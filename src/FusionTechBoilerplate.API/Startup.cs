@@ -39,10 +39,10 @@ namespace FusionTechBoilerplate.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var smtp = Configuration.GetSection(EmailOptions.EmailSettings).Get<EmailOptions>();
+            var smtp = Configuration.GetSection(EmailOptions.SettingsSectionKey).Get<EmailOptions>();
 
             services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddEmailSender(smtp.User, smtp.Password, smtp.Server, smtp.Port, smtp.UseSsl, smtp.RequiresAuthentication);
+            services.AddEmailSender(smtp);
             services.AddAuthorizationJWT<AppDbContext, IdentityUser>();
             services.AddControllersWithViews();
             services.AddCors();

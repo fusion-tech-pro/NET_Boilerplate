@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FusionTechBoilerplate.Utilities.EmailSender
+﻿namespace FusionTechBoilerplate.Utilities.EmailSender
 {
     public class EmailOptions
     {
-        public const string EmailSettings = "Smtp";
+        public const string SettingsSectionKey = "Smtp";
 
         public string User { get; set;}
         public string Password { get; set;}
