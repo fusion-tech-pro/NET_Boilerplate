@@ -3,6 +3,7 @@
     #region << Using >>
 
     using FluentEmail.MailKitSmtp;
+    using FusionTechBoilerplate.Utilities.EmailSender;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -11,27 +12,22 @@
     public static class EmailSenderExtensions
     {
         public static IServiceCollection AddEmailSender(this IServiceCollection services,
-                                                        string userEmail,
-                                                        string password,
-                                                        string server,
-                                                        int port,
-                                                        bool useSll,
-                                                        bool requiresAuthentication
+                                                        EmailOptions emailOptions
                 )
         {
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IEmailSender, EmailService>();
 
-            services.AddFluentEmail(userEmail)
+            services.AddFluentEmail(emailOptions.User)
                     .AddRazorRenderer()
                     .AddMailKitSender(new SmtpClientOptions
                                       {
-                                              User = userEmail,
-                                              Password = password,
-                                              Server = server,
-                                              Port = port,
-                                              UseSsl = useSll,
-                                              RequiresAuthentication = requiresAuthentication
+                                              User = emailOptions.User,
+                                              Password = emailOptions.Password,
+                                              Server = emailOptions.Server,
+                                              Port = emailOptions.Port,
+                                              UseSsl = emailOptions.UseSsl,
+                                              RequiresAuthentication = emailOptions.RequiresAuthentication
                                       });
 
             return services;
