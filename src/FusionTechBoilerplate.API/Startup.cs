@@ -16,6 +16,7 @@ namespace FusionTechBoilerplate.API
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Serilog;
+    using Microsoft.OpenApi.Models;
     using FusionTechBoilerplate.Utilities.EmailSender;
 
     #endregion
@@ -46,6 +47,24 @@ namespace FusionTechBoilerplate.API
             services.AddAuthorizationJWT<AppDbContext, IdentityUser>();
             services.AddControllersWithViews();
             services.AddCors();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "API",
+                    Description = "ASP.NET Core Web API",
+                });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
+            });
         }
 
         [UsedImplicitly]
@@ -62,6 +81,13 @@ namespace FusionTechBoilerplate.API
                 app.UseExceptionHandler("/Item/Error");
                 app.UseHsts();
             }
+
+            app.UseSwagger(s => s.SerializeAsV2 = true);
+
+            app.UseSwaggerUI(s => {
+                s.SwaggerEndpoint("../swagger/v1/swagger.json", "My API V1");
+                s.RoutePrefix = string.Empty;
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
