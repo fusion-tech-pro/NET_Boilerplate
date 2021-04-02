@@ -16,6 +16,7 @@ namespace FusionTechBoilerplate.API
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Serilog;
+    using FusionTechBoilerplate.Utilities.EmailSender;
 
     #endregion
 
@@ -38,8 +39,10 @@ namespace FusionTechBoilerplate.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var smtp = Configuration.GetSection(EmailOptions.EmailSettings).Get<EmailOptions>();
+
             services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddEmailSender("akartashova.itp@gmail.com", "******", "smtp.gmail.com", 465, true, true);
+            services.AddEmailSender(smtp.User, smtp.Password, smtp.Server, smtp.Port, smtp.UseSsl, smtp.RequiresAuthentication);
             services.AddAuthorizationJWT<AppDbContext, IdentityUser>();
             services.AddControllersWithViews();
             services.AddCors();
