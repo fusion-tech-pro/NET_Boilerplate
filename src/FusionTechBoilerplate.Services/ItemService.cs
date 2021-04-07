@@ -5,6 +5,7 @@
     using System;
     using System.Threading.Tasks;
     using AutoMapper;
+    using System.Linq;
     using FusionTechBoilerplate.Domain;
     using FusionTechBoilerplate.Models;
     using JetBrains.Annotations;
@@ -54,7 +55,8 @@
             if (items == null && id.HasValue)
                 throw new EntityNotFoundException(nameof(items), id);
 
-            return this._mapper.Map<ItemDto[]>(items);
+
+            return this._mapper.Map<ItemDto[]>(items.OrderBy(v => v.Value));
         }
 
         public async Task<ItemDto> AddOrUpdate(ItemDto itemDto)
@@ -73,7 +75,7 @@
                 item = new Item();
             }
 
-            item.Status = itemDto.Status;
+            item.Status = itemDto.Status.HasValue ? itemDto.Status.Value : (Models.Status)1 ;
             item.UpdateDate = DateTime.UtcNow;
             item.Value = itemDto.Value;
 
@@ -84,6 +86,20 @@
 
             await this._unitOfWork.SaveChangesAsync();
 
+            return this._mapper.Map<ItemDto>(item);
+        }
+
+        public async Task<ItemDto> ChangeStatus(int id)
+        {
+            var spec = new FindByIdSpec<Item>(id);
+            var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
+
+            item.Status = item.Status == Models.Status.New 
+                ? item.Status = Models.Status.InProgress : item.Status == Models.Status.InProgress 
+                ? item.Status = Models.Status.Done : item.Status == Models.Status.Done 
+                ? item.Status = Models.Status.InProgress : item.Status = Models.Status.InProgress;
+
+            await this._unitOfWork.SaveChangesAsync();
             return this._mapper.Map<ItemDto>(item);
         }
 

@@ -11,6 +11,8 @@
     {
         Task<ItemDto> AddOrUpdate(ItemDto itemDto);
 
+        Task<ItemDto> ChangeStatus(int id);
+
         Task Delete(int id);
 
         Task<ItemDto[]> GetAsync(int? id);

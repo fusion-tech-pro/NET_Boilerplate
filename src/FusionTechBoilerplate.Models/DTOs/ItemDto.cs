@@ -17,7 +17,7 @@
 
         public string Value { get; set; }
 
-        public Status Status { get; set; }
+        public Status? Status { get; set; }
 
         public DateTime? CreateDate { get; set; }
 
@@ -38,10 +38,6 @@
                         .NotEmpty().WithMessage($"{Constants.FluentValidationConventions.PropertyName} is empty")
                         .Length(2, 50).WithMessage($"Length ({Constants.FluentValidationConventions.TotalLength} of "
                                                  + $"{Constants.FluentValidationConventions.PropertyName} invalid)");
-
-                RuleFor(x => x.Status)
-                        .NotNull().WithMessage($"{Constants.FluentValidationConventions.PropertyName} is null")
-                        .NotEmpty().WithMessage($"{Constants.FluentValidationConventions.PropertyName} is empty");
             }
 
             #endregion
