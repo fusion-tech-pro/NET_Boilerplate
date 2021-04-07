@@ -52,7 +52,7 @@
             var spec = id.HasValue ? new FindByIdSpec<Item>(id.Value) : null;
             var items = await this._unitOfWork.Repository<Item>().Get(spec).ToArrayAsync();
 
-            if (!items.All(i => i.Id == id) && id.HasValue)
+            if (id.HasValue && items.All(i => i.Id != id))
                 throw new EntityNotFoundException(nameof(items), id);
 
             return this._mapper.Map<ItemDto[]>(items.OrderBy(v => v.Value));
@@ -68,13 +68,13 @@
             if (item == null && itemDto.Id.HasValue)
                 throw new EntityNotFoundException(nameof(item), itemDto.Id);
 
-            if (itemDto.Id == null)
+            if (item == null)
             {
                 isNew = true;
                 item = new Item();
             }
 
-            item.Status = itemDto.Status.HasValue ? itemDto.Status.Value : (Status)1 ;
+            item.Status = Status.New;
             item.UpdateDate = DateTime.UtcNow;
             item.Value = itemDto.Value;
 
@@ -96,6 +96,7 @@
             switch (item.Status)
             {
                 case Status.New:
+                case Status.Done:
                     item.Status = Status.InProgress;
                     break;
 
@@ -103,9 +104,8 @@
                     item.Status = Status.Done;
                     break;
 
-                case Status.Done:
-                    item.Status = Status.InProgress;
-                    break;
+                default:
+                    throw new NotImplementedException();
             };
 
             await this._unitOfWork.SaveChangesAsync();
