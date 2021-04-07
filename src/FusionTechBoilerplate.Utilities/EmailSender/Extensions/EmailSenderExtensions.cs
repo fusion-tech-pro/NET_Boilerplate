@@ -3,7 +3,6 @@
     #region << Using >>
 
     using FluentEmail.MailKitSmtp;
-    using FusionTechBoilerplate.Utilities.EmailSender;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.Extensions.DependencyInjection;
 
