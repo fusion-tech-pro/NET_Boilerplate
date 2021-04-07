@@ -43,21 +43,24 @@
         }
 
         [HttpPost("post")]
-        public async Task Post([FromBody] ItemDto itemDto)
+        public async Task<IActionResult> Post([FromBody] ItemDto itemDto)
         {
             await this._itemService.AddOrUpdate(itemDto);
+            return Ok();
         }
 
         [HttpDelete("delete/{id}")]
-        public async Task Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await this._itemService.Delete(id);
+            return Ok();
         }
 
         [HttpPut("put/{id}")]
-        public async Task Put(int id)
+        public async Task<IActionResult> Put(int id)
         {
             await this._itemService.ChangeStatus(id);
+            return Ok();
         }
     }
 }
