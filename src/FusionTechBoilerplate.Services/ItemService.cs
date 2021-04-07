@@ -52,9 +52,8 @@
             var spec = id.HasValue ? new FindByIdSpec<Item>(id.Value) : null;
             var items = await this._unitOfWork.Repository<Item>().Get(spec).ToArrayAsync();
 
-            if (items == null && id.HasValue)
+            if (!items.All(i => i.Id == id) && id.HasValue)
                 throw new EntityNotFoundException(nameof(items), id);
-
 
             return this._mapper.Map<ItemDto[]>(items.OrderBy(v => v.Value));
         }
@@ -75,7 +74,7 @@
                 item = new Item();
             }
 
-            item.Status = itemDto.Status.HasValue ? itemDto.Status.Value : (Models.Status)1 ;
+            item.Status = itemDto.Status.HasValue ? itemDto.Status.Value : (Status)1 ;
             item.UpdateDate = DateTime.UtcNow;
             item.Value = itemDto.Value;
 
@@ -94,10 +93,20 @@
             var spec = new FindByIdSpec<Item>(id);
             var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
 
-            item.Status = item.Status == Models.Status.New 
-                ? item.Status = Models.Status.InProgress : item.Status == Models.Status.InProgress 
-                ? item.Status = Models.Status.Done : item.Status == Models.Status.Done 
-                ? item.Status = Models.Status.InProgress : item.Status = Models.Status.InProgress;
+            switch (item.Status)
+            {
+                case Status.New:
+                    item.Status = Status.InProgress;
+                    break;
+
+                case Status.InProgress:
+                    item.Status = Status.Done;
+                    break;
+
+                case Status.Done:
+                    item.Status = Status.InProgress;
+                    break;
+            };
 
             await this._unitOfWork.SaveChangesAsync();
             return this._mapper.Map<ItemDto>(item);
