@@ -1,0 +1,88 @@
+<div class="main" fxLayout="row" fxLayoutAlign="center center">
+
+  <app-logo></app-logo>
+
+  <mat-card class="auth-card" fxLayout="column" fxLayoutAlign="space-around center">
+
+    <mat-card-header>
+      <span>Sign Up</span>
+    </mat-card-header>
+    
+    <mat-card-content  fxLayout="column" fxLayoutAlign="start center">
+
+      <div [formGroup]="formForRegister" fxLayout="column" fxLayoutAlign="space-between center">
+        <mat-form-field class="fields">
+          <mat-label>Email</mat-label>
+          <input type="email" matInput formControlName="email" placeholder="example@gmail.com">
+         
+          <mat-error *ngIf="formForRegister.get('email').errors && !formForRegister.get('email').hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="formForRegister.get('email').hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+          
+        </mat-form-field>
+
+        <mat-form-field class="fields pt-20">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" [type]="showPassword ? 'text' : 'password'">
+
+          <button mat-icon-button matSuffix (click)="showPassword = !showPassword">
+            <mat-icon>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          
+          <mat-error *ngIf="formForRegister.get('password').errors 
+            && !formForRegister.get('password').hasError('required')">
+            The password is not valid
+          </mat-error>
+          <mat-error *ngIf="formForRegister.get('password').hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>  
+
+        </mat-form-field>
+
+        <mat-form-field class="fields pt-20">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput formControlName="confirmPassword" [type]="showPassword ? 'text' : 'password'">
+
+          <button mat-icon-button matSuffix (click)="showPassword = !showPassword">
+            <mat-icon>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          
+          <mat-error *ngIf= "formForRegister.controls['confirmPassword'].errors 
+              && formForRegister.controls['confirmPassword']"> 
+              Password don't match 
+          </mat-error>
+          <mat-error *ngIf="formForRegister.get('confirmPassword').hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error> 
+
+        </mat-form-field>
+
+      </div>
+
+    </mat-card-content>
+    
+    <!-- <mat-error class="error" *ngIf="formForRegister.get('password').errors 
+      && formForRegister.get('password').hasError('pattern')">
+      The password must match the rules:
+      <ul>
+        <li>at least 8 characters</li>
+        <li>at least 2 uppercase letters</li>
+        <li>at least 1 digit</li>
+        <li>at least 1 special character (!, @, etc)</li>
+      </ul>
+    </mat-error> -->
+
+    <mat-card-actions  class="actions" fxLayout="column" fxLayoutAlign="space-between center">
+      <button mat-raised-button class="btn" color="primary" (click)="register()"
+        [disabled]="formForRegister.invalid">SignUp</button>
+
+      <span > I already have an account 
+        <a [routerLink]="'/auth/login'">SignIn</a>
+      </span>
+    </mat-card-actions>
+  
+  </mat-card>
+</div>
