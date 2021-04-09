@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using FusionTechBoilerplate.Models;
     using FusionTechBoilerplate.Services;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -13,6 +14,7 @@
 
     [Route("api/item")]
     [ApiController]
+    [Authorize]
     public class ItemController : Controller
     {
         #region Properties
@@ -34,7 +36,7 @@
 
         #endregion
 
-        [HttpGet("get")]
+        [HttpGet("get/{id?}")]
         public async Task<IActionResult> Get(int? id)
         {
             this._logger.LogInformation("Test Item Controller..");

@@ -11,6 +11,7 @@
     using JetBrains.Annotations;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using FusionTechBoilerplate.Authentication;
 
     #endregion
 
@@ -24,14 +25,19 @@
 
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly IAuthService _authService;
+
         #endregion
 
         #region Constructors
 
-        public ItemService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ItemService(IUnitOfWork unitOfWork, 
+            IMapper mapper,
+            IAuthService authService)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
+            this._authService = authService;
         }
 
         #endregion
@@ -40,8 +46,15 @@
 
         public async Task Delete(int id)
         {
-            var spec = new FindByIdSpec<Item>(id);
+            var userId = _authService.GetCurretUserId();  
+            var specUser = new FindItemByUserIdSpec<Item>(userId);
+
+            var spec = (Specification<Item>)specUser.And(new FindByIdSpec<Item>(id));
             var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
+
+            if (item != null && item.User.Id != userId) {
+                throw new EntityNotFoundException(nameof(User), userId);
+            }
 
             this._unitOfWork.Repository<Item>().Delete(item);
             await this._unitOfWork.SaveChangesAsync();
@@ -49,7 +62,9 @@
 
         public async Task<ItemDto[]> GetAsync(int? id)
         {
-            var spec = id.HasValue ? new FindByIdSpec<Item>(id.Value) : null;
+            var specUser = new FindItemByUserIdSpec<Item>(_authService.GetCurretUserId());  
+
+            var spec = (Specification<Item>)(id.HasValue ? specUser.And(new FindByIdSpec<Item>(id.Value)) : specUser);
             var items = await this._unitOfWork.Repository<Item>().Get(spec).ToArrayAsync();
 
             if (id.HasValue && items.All(i => i.Id != id))
@@ -62,21 +77,32 @@
         {
             var isNew = false;
 
+            var userId = _authService.GetCurretUserId();  
+            var specUser = new FindUserByIdSpec(userId);
+            var currentUser = await this._unitOfWork.Repository<User>().Get(specUser).SingleOrDefaultAsync();
+
+            if (currentUser == null)
+                throw new EntityNotFoundException(nameof(currentUser), userId);
+
             var spec = new FindByIdSpec<Item>(itemDto.Id.GetValueOrDefault());
             var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
 
             if (item == null && itemDto.Id.HasValue)
                 throw new EntityNotFoundException(nameof(item), itemDto.Id);
 
+            if (item != null && item.User != currentUser) {
+                throw new EntityNotFoundException(nameof(currentUser), userId);
+            }
+
             if (item == null)
             {
                 isNew = true;
-                item = new Item();
+                item = new Item { User = currentUser };
             }
 
             item.Status = Status.New;
             item.UpdateDate = DateTime.UtcNow;
-            item.Value = itemDto.Value;
+            item.Value = itemDto.Value;            
 
             if (isNew)
                 this._unitOfWork.Repository<Item>().Add(item);
@@ -90,8 +116,15 @@
 
         public async Task<ItemDto> ChangeStatus(int id)
         {
-            var spec = new FindByIdSpec<Item>(id);
+            var userId = _authService.GetCurretUserId();  
+            var specUser = new FindItemByUserIdSpec<Item>(userId);
+
+            var spec = (Specification<Item>)specUser.And(new FindByIdSpec<Item>(id));
             var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
+
+            if (item != null && item.User.Id != userId) {
+                throw new EntityNotFoundException(nameof(User), userId);
+            }
 
             switch (item.Status)
             {

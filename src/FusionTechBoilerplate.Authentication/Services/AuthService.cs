@@ -5,30 +5,36 @@
     using System;
     using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.IdentityModel.Tokens;
 
     #endregion
 
-    public class AuthService : IAuthService
+    public class AuthService<TUser> : IAuthService where TUser : IdentityUser, new()
     {
         #region Properties
 
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<TUser> _signInManager;
 
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<TUser> _userManager;
+
+        private IHttpContextAccessor _httpContextAccessor;
 
         #endregion
 
         #region Constructors
 
-        public AuthService(SignInManager<IdentityUser> signInManager,
-                           UserManager<IdentityUser> userManager)
+        public AuthService(SignInManager<TUser> signInManager,
+                           UserManager<TUser> userManager,
+                           IHttpContextAccessor httpContextAccessor)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
+            this._httpContextAccessor = httpContextAccessor;
         }
 
         #endregion
@@ -37,8 +43,7 @@
 
         public async Task<JWTCredits> SignUp<T>(T signUpDto) where T : ISignUpDto
         {
-            var user = new IdentityUser
-
+            var user = new TUser
                        {
                                Email = signUpDto.Email,
                                UserName = string.IsNullOrWhiteSpace(signUpDto.UserName) ? signUpDto.Email : signUpDto.UserName
@@ -69,6 +74,18 @@
             await this._signInManager.SignInAsync(user, false);
 
             return GenerateToken(user);
+        }
+
+        public string GetCurretUserId()
+        {
+            var claim = this._httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id"));
+
+            if (claim == null)
+            {
+                throw new ArgumentNullException(nameof(claim));
+            }
+
+            return claim.Value;
         }
 
         #endregion
