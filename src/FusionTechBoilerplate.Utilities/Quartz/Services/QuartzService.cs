@@ -2,7 +2,6 @@
 {
     #region << Using >>
 
-    using Microsoft.Extensions.Hosting;
     using Quartz;
     using Quartz.Impl;
     using System;
@@ -13,7 +12,7 @@
 
     #endregion
 
-    public class QuartzService : IHostedService
+    public class QuartzService
     {
         #region Constants
 
@@ -66,7 +65,7 @@
 
         #endregion
 
-        public async Task ScheduleJob<T>(string cronExpression = default, CancellationToken cancellationToken = default) where T : IJob
+        public async Task<QuartzSchedule> ScheduleJob<T>(string cronExpression = default, CancellationToken cancellationToken = default) where T : IJob
         {
             if (this._scheduler == null)
                 throw new NullReferenceException(nullSchedulerExceptionMessage);
@@ -80,9 +79,13 @@
             if (!Schedules.Value.ContainsKey(jobType))
                 Schedules.Value.GetOrAdd(jobType, new List<QuartzSchedule>());
 
-            Schedules.Value[jobType].Add(new QuartzSchedule(job, trigger, new CancellationToken()));
+            var quartzSchedule = new QuartzSchedule(job, trigger, new CancellationToken());
+
+            Schedules.Value[jobType].Add(quartzSchedule);
 
             await this._scheduler.ScheduleJob(job, trigger, cancellationToken);
+
+            return quartzSchedule;
         }
 
         public List<QuartzSchedule> GetScheduledJobs<T>() where T : IJob
