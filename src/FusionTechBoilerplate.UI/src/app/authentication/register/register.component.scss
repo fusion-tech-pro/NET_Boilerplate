@@ -1,0 +1,34 @@
+.main{
+  height: 100vh;
+
+  .auth-card {
+    width: 500px;
+    height: 482px;
+
+    .error {
+      position: fixed;
+      top: 449px;
+      left: 825px;
+      font-size: 9px;
+    }
+
+    .actions {
+      height: 17%;
+      
+      .btn {
+        width: 100px;
+        border-radius: 6px;
+      }
+    }
+  }
+
+  .fields {
+    width: 300px;
+  }
+
+  .pt-20 {
+    padding-top: 20px;
+  }
+}
+  
+

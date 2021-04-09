@@ -1,0 +1,42 @@
+.main {
+    .card {
+
+        .form {
+            width: 100%;
+        }
+
+        .btn {
+            width: 100px;
+        }
+
+        .btn-new {
+            background-color: azure;
+        }
+
+        .btn-done {
+            background-color: #20B2AA;
+        }
+
+        .btn-in-progres {
+            background-color: #A52A2A;
+        }
+
+        .basket {
+            cursor: pointer;
+        }
+
+        .errors {
+            height: 40px;
+        }
+    }
+
+    
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mr-20 {
+    margin-right: 20px;
+}
