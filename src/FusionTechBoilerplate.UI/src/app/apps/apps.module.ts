@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { TodoService } from './todo-app/todo.service';
 
 
 const routes = [
@@ -40,6 +41,9 @@ const routes = [
     ReactiveFormsModule,
     FormsModule,
     MatCardModule
+  ], 
+  providers: [
+    TodoService
   ]
 })
 export class AppsModule { }

@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthenticationService } from './authentication.service';
 
 const routes = [
   {
@@ -50,6 +51,9 @@ const routes = [
     FormsModule,
     FlexLayoutModule,
     MatIconModule,
+  ],
+  providers: [
+    AuthenticationService
   ]
 })
 export class AuthenticationModule { }
