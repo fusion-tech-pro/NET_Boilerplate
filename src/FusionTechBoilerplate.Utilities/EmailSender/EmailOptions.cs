@@ -1,4 +1,4 @@
-﻿namespace FusionTechBoilerplate.Utilities.EmailSender
+﻿namespace FusionTechBoilerplate.Utilities
 {
     public class EmailOptions
     {
