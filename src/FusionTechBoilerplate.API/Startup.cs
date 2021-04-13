@@ -41,7 +41,7 @@ namespace FusionTechBoilerplate.API
         {
             var smtp = Configuration.GetSection(EmailOptions.SettingsSectionKey).Get<EmailOptions>();
 
-            services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"), SQLServerType.MSSQL);
             services.AddEmailSender(smtp);
             services.AddAuthorizationJWT<AppDbContext, IdentityUser>();
             services.AddControllersWithViews();
