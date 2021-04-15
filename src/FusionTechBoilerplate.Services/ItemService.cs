@@ -46,14 +46,13 @@
 
         public async Task Delete(int id)
         {
-            var userId = _authService.GetCurretUserId();  
-            var specUser = new FindItemByUserIdSpec<Item>(userId);
+            var userParams = GetUserParametrs();
 
-            var spec = (Specification<Item>)specUser.And(new FindByIdSpec<Item>(id));
-            var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
+            var spec = (Specification<Item>)userParams.SpecByUserId.And(new FindByIdSpec<Item>(id));
+            var item = await this._unitOfWork.Repository<Item>().Get(spec).Include(r => r.User).SingleOrDefaultAsync();
 
-            if (item != null && item.User.Id != userId) {
-                throw new EntityNotFoundException(nameof(User), userId);
+            if (item != null && item.User.Id != userParams.Id) {
+                throw new EntityNotFoundException(nameof(User), userParams.Id);
             }
 
             this._unitOfWork.Repository<Item>().Delete(item);
@@ -62,10 +61,10 @@
 
         public async Task<ItemDto[]> GetAsync(int? id)
         {
-            var specUser = new FindItemByUserIdSpec<Item>(_authService.GetCurretUserId());  
+            var userParams = GetUserParametrs();
 
-            var spec = (Specification<Item>)(id.HasValue ? specUser.And(new FindByIdSpec<Item>(id.Value)) : specUser);
-            var items = await this._unitOfWork.Repository<Item>().Get(spec).ToArrayAsync();
+            var spec = (Specification<Item>)(id.HasValue ? userParams.SpecByUserId.And(new FindByIdSpec<Item>(id.Value)) : userParams.SpecByUserId);
+            var items = await this._unitOfWork.Repository<Item>().Get(spec).Include(r => r.User).ToArrayAsync();
 
             if (id.HasValue && items.All(i => i.Id != id))
                 throw new EntityNotFoundException(nameof(items), id);
@@ -76,22 +75,21 @@
         public async Task<ItemDto> AddOrUpdate(ItemDto itemDto)
         {
             var isNew = false;
+            var userParams = GetUserParametrs();
 
-            var userId = _authService.GetCurretUserId();  
-            var specUser = new FindUserByIdSpec(userId);
-            var currentUser = await this._unitOfWork.Repository<User>().Get(specUser).SingleOrDefaultAsync();
+            var currentUser = await this._unitOfWork.Repository<User>().Get(userParams.SpecUserId).SingleOrDefaultAsync();
 
             if (currentUser == null)
-                throw new EntityNotFoundException(nameof(currentUser), userId);
+                throw new EntityNotFoundException(nameof(currentUser), userParams.Id);
 
             var spec = new FindByIdSpec<Item>(itemDto.Id.GetValueOrDefault());
-            var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
+            var item = await this._unitOfWork.Repository<Item>().Get(spec).Include(r => r.User).SingleOrDefaultAsync();
 
             if (item == null && itemDto.Id.HasValue)
                 throw new EntityNotFoundException(nameof(item), itemDto.Id);
 
             if (item != null && item.User != currentUser) {
-                throw new EntityNotFoundException(nameof(currentUser), userId);
+                throw new EntityNotFoundException(nameof(currentUser), userParams.Id);
             }
 
             if (item == null)
@@ -116,14 +114,13 @@
 
         public async Task<ItemDto> ChangeStatus(int id)
         {
-            var userId = _authService.GetCurretUserId();  
-            var specUser = new FindItemByUserIdSpec<Item>(userId);
+            var userParams = GetUserParametrs();
 
-            var spec = (Specification<Item>)specUser.And(new FindByIdSpec<Item>(id));
-            var item = await this._unitOfWork.Repository<Item>().Get(spec).SingleOrDefaultAsync();
+            var spec = (Specification<Item>)userParams.SpecByUserId.And(new FindByIdSpec<Item>(id));
+            var item = await this._unitOfWork.Repository<Item>().Get(spec).Include(r => r.User).SingleOrDefaultAsync();
 
-            if (item != null && item.User.Id != userId) {
-                throw new EntityNotFoundException(nameof(User), userId);
+            if (item != null && item.User.Id != userParams.Id) {
+                throw new EntityNotFoundException(nameof(User), userParams.Id);
             }
 
             switch (item.Status)
@@ -143,6 +140,29 @@
 
             await this._unitOfWork.SaveChangesAsync();
             return this._mapper.Map<ItemDto>(item);
+        }
+
+        private UserParameters GetUserParametrs()
+        {
+            return new UserParameters
+            {
+                Id = _authService.GetCurretUserId(),
+                SpecByUserId = new FindItemByUserIdSpec<Item>(_authService.GetCurretUserId()),
+                SpecUserId = new FindUserByIdSpec(_authService.GetCurretUserId())
+            };
+        }
+
+        private async Task<ItemDto[]> GetStatus(int status, int statusOr)
+        {
+            var userParams = GetUserParametrs();
+
+            var spec = (Specification<Item>)userParams.SpecByUserId.And((Specification<Item>)(new FindItemByStatusSpec(status).Or(new FindItemByStatusSpec(statusOr))));
+            var items = await this._unitOfWork.Repository<Item>().Get(spec).Include(r => r.User).ToArrayAsync();
+
+            if (items.All(i => i.Status != (Status)status))
+                throw new EntityNotFoundException(nameof(items), status);
+
+            return this._mapper.Map<ItemDto[]>(items.OrderBy(v => v.Value));
         }
 
         #endregion

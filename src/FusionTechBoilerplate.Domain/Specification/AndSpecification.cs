@@ -3,7 +3,6 @@
     #region << Using >>
 
     using System;
-    using System.Linq;
     using System.Linq.Expressions;
 
     #endregion
@@ -33,8 +32,7 @@
             var leftExpression = this._left.ToExpression();
             var rightExpression = this._right.ToExpression();
 
-            var andExpression = Expression.AndAlso(leftExpression.Body, rightExpression.Body);
-            return Expression.Lambda<Func<T, bool>>(andExpression, leftExpression.Parameters.Single());
+            return PredicateBuilder.And<T>(leftExpression, rightExpression);
         }
     }
 }
