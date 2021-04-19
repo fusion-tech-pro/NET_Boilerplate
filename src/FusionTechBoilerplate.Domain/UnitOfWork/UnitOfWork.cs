@@ -8,6 +8,8 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using System.Transactions;
+    using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -55,6 +57,16 @@
                     entityType.SetSchema(database);
         }
 
+        public void BeginTransactionAsync( Func<Task> transactionAction)
+        {
+            transactionAction.Invoke();
+        }
+
+        public Task<T> BeginTransactionAsync<T>(Func<T> transactionAction)
+        {
+            throw new NotImplementedException();
+        }
+
         public IRepository<TEntity> Repository<TEntity>() where TEntity : class
         {
             if (this._repositories == null)
@@ -93,6 +105,37 @@
 
             GC.SuppressFinalize(this);
         }
+
+        /*public void BeginTransaction()
+        {
+            using (var scope = new TransactionScope(TransactionScopeOption.Required))
+            {
+                using (var connection = new SqlConnection("..."))
+                {
+                    connection.Open();
+
+                    /*var sqlCommand = new SqlCommand();
+                    sqlCommand.Connection = connection;
+                    sqlCommand.CommandText =
+                            @"UPDATE Blogs SET Rating = 5" +
+                            " WHERE Name LIKE '%Entity Framework%'";
+
+                    sqlCommand.ExecuteNonQuery();
+
+                    using (var context =
+                            new BloggingContext(connection, contextOwnsConnection: false))
+                    {
+                        var query = context.Posts.Where(p => p.Blog.Rating > 5);
+                        foreach (var post in query)
+                            post.Title += "[Cool Blog]";
+
+                        context.SaveChanges();
+                    }#1#
+                }
+
+                scope.Complete();
+            }
+        }*/
 
         #endregion
 

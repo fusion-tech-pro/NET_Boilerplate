@@ -62,5 +62,12 @@
             await this._itemService.AddOrUpdate(item);
             return Ok("ok");
         }
+
+        [HttpGet("GetTest")]
+        public async Task<IActionResult> GetTest()
+        {
+            await this._itemService.TestTransaction();
+            return Ok("ok");
+        }
     }
 }

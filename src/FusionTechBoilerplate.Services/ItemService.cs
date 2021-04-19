@@ -4,6 +4,7 @@
 
     using System;
     using System.Threading.Tasks;
+    using System.Transactions;
     using AutoMapper;
     using FusionTechBoilerplate.Domain;
     using FusionTechBoilerplate.Models;
@@ -55,6 +56,53 @@
                 throw new EntityNotFoundException(nameof(items), id);
 
             return this._mapper.Map<ItemDto[]>(items);
+        }
+
+        public async Task TestTransaction()
+        {
+            using (var scopeOne = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.ReadCommitted }, TransactionScopeAsyncFlowOption.Enabled)) //options need to see the documentation
+            {
+                var oneTestObject = new ItemDto()
+                                    {
+                                            Status = Status.New,
+                                            Value = "OneTestObject",
+                                    };
+
+                var itemOne = await AddOrUpdate(oneTestObject);
+
+                using (var scopeTwo = new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    var twoTestObject = new ItemDto()
+                                        {
+                                                Status = Status.New,
+                                                Value = "TwoTestObject",
+                                        };
+
+                    var itemTwo = await AddOrUpdate(twoTestObject);
+                    // throw new Exception("level two");
+                    using (var scopedThree = new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled))
+                    {
+                        this._unitOfWork.BeginTransactionAsync(async () =>
+                                                               {
+                                                                   var threeTestObject = new ItemDto()
+                                                                                         {
+                                                                                                 Status = Status.New,
+                                                                                                 Value = "ThreeTestObject"
+                                                                                         };
+
+                                                                   var itemThree = await AddOrUpdate(threeTestObject);
+                                                               });
+
+                        // throw new Exception("level three");
+                        scopedThree.Complete();
+                    }
+
+                    scopeTwo.Complete();
+                }
+
+                throw new Exception("level one");
+                scopeOne.Complete();
+            }
         }
 
         public async Task<ItemDto> AddOrUpdate(ItemDto itemDto)

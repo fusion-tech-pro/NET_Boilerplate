@@ -22,6 +22,8 @@
     {
         void ChangeDatabase(string database);
 
+        void BeginTransactionAsync (Func<Task> transactionAction);
+
         IRepository<TEntity> Repository<TEntity>() where TEntity : class;
 
         int SaveChanges(bool ensureAutoHistory = false);
