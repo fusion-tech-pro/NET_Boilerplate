@@ -99,9 +99,9 @@
             {
                 isNew = true;
                 item = new Item { User = currentUser };
+                item.Status = Status.New;
             }
 
-            item.Status = Status.New;
             item.UpdateDate = DateTime.UtcNow;
             item.Value = itemDto.Value;            
 
