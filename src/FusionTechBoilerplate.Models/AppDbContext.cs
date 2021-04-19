@@ -8,7 +8,7 @@
 
     #endregion
 
-    public sealed class AppDbContext : IdentityDbContext<IdentityUser>
+    public sealed class AppDbContext : IdentityDbContext<User>
     {
         #region Properties
 

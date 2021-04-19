@@ -3,7 +3,6 @@
     #region << Using >>
 
     using System;
-    using System.Linq;
     using System.Linq.Expressions;
 
     #endregion
@@ -29,8 +28,7 @@
         {
             var expression = this._specification.ToExpression();
 
-            var notExpression = Expression.Not(expression.Body);
-            return Expression.Lambda<Func<T, bool>>(notExpression, expression.Parameters.Single());
+            return ExpressionExtensions.Not<T>(expression);
         }
     }
 }

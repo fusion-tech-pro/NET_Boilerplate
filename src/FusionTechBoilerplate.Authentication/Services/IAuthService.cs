@@ -11,5 +11,7 @@
         Task<JWTCredits> SignUp<T>(T signUpDto) where T : ISignUpDto;
 
         Task<JWTCredits> SignIn<T>(T signInDto) where T : ISignInDto;
+
+        string GetCurretUserId();
     }
 }

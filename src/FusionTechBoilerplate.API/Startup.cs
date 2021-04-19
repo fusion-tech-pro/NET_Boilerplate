@@ -10,7 +10,6 @@ namespace FusionTechBoilerplate.API
     using JetBrains.Annotations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -42,8 +41,8 @@ namespace FusionTechBoilerplate.API
             var smtp = Configuration.GetSection(EmailOptions.SettingsSectionKey).Get<EmailOptions>();
 
             services.AddBoilerplateDependencies<AppDbContext, IItemService>(Configuration.GetConnectionString("DefaultConnection"), SQLServerType.MSSQL);
-            services.AddEmailSender(smtp);
-            services.AddAuthorizationJWT<AppDbContext, IdentityUser>();
+            services.AddEmailSender(smtp);            
+            services.AddAuthorizationJWT<AppDbContext, User>();
             services.AddControllersWithViews();
             services.AddCors();
             services.AddBoilerplateQuartz<IItemService>();

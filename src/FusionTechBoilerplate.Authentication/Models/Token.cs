@@ -17,7 +17,7 @@
 
         private const string KEY = "Boilerplate-fusion-tech-03152021";
 
-        public const int LIFETIME = 60;
+        public const int LIFETIME = 360;
 
         #endregion
 

@@ -1,30 +1,31 @@
-﻿namespace FusionTechBoilerplate.Domain
+﻿namespace FusionTechBoilerplate.Models
 {
     #region << Using >>
 
     using System;
     using System.Linq.Expressions;
+    using FusionTechBoilerplate.Domain;
 
     #endregion
 
-    public class FindByIdSpec<T> : Specification<T> where T : IEntityBase
+    public class FindUserByIdSpec : Specification<User>
     {
         #region Properties
 
-        private readonly object id;
+        private readonly string id;
 
         #endregion
 
         #region Constructors
 
-        public FindByIdSpec(object id)
+        public FindUserByIdSpec(string id)
         {
             this.id = id;
         }
 
         #endregion
 
-        public override Expression<Func<T, bool>> ToExpression()
+        public override Expression<Func<User, bool>> ToExpression()
         {
             return r => r.Id == this.id;
         }

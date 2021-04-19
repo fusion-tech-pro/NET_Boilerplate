@@ -15,10 +15,10 @@
     public static class AuthenticationExtensions
     {
         public static IServiceCollection AddAuthorizationJWT<TDbContext, TIdentityUser>(this IServiceCollection services, Action<IdentityOptions> identityOptions = null)
-                where TIdentityUser : IdentityUser
+                where TIdentityUser : IdentityUser, new()
                 where TDbContext : IdentityDbContext<TIdentityUser>
         {
-            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthService, AuthService<TIdentityUser>>();
 
             services.AddDefaultIdentity<TIdentityUser>(identityOptions ?? (r => { }))
                     .AddEntityFrameworkStores<TDbContext>();

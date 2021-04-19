@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using FusionTechBoilerplate.Models;
     using FusionTechBoilerplate.Services;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -13,6 +14,7 @@
 
     [Route("api/item")]
     [ApiController]
+    [Authorize]
     public class ItemController : Controller
     {
         #region Properties
@@ -34,7 +36,7 @@
 
         #endregion
 
-        [HttpGet("get")]
+        [HttpGet("get/{id?}")]
         public async Task<IActionResult> Get(int? id)
         {
             this._logger.LogInformation("Test Item Controller..");
@@ -46,21 +48,21 @@
         public async Task<IActionResult> Post([FromBody] ItemDto itemDto)
         {
             await this._itemService.AddOrUpdate(itemDto);
-            return Ok("ok");
+            return Ok();
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await this._itemService.Delete(id);
-            return Ok("ok");
+            return Ok();
         }
 
-        [HttpPut("put")]
-        public async Task<IActionResult> Put([FromBody] ItemDto item)
+        [HttpPut("put/{id}")]
+        public async Task<IActionResult> Put(int id)
         {
-            await this._itemService.AddOrUpdate(item);
-            return Ok("ok");
+            await this._itemService.ChangeStatus(id);
+            return Ok();
         }
     }
 }

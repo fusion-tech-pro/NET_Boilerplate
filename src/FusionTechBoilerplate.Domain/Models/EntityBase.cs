@@ -5,12 +5,17 @@
     using System;
 
     #endregion
+    public interface IEntityBase
+    {
+        object Id { get; set; }
+    }
 
-    public class EntityBase
+
+    public abstract class EntityBase : IEntityBase
     {
         #region Properties
 
-        public int Id { get; set; }
+        public virtual object Id { get; set; }
 
         public DateTime CreateDate { get; private set; }
 

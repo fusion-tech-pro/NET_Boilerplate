@@ -1,4 +1,5 @@
-﻿namespace FusionTechBoilerplate.Models
+﻿
+namespace FusionTechBoilerplate.Models
 {
     #region << Using >>
 
@@ -8,13 +9,18 @@
 
     #endregion
 
-    public class Item : EntityBase
+    public class Item : EntityBase,
+        IUserProperty
     {
         #region Properties
+
+        public new int Id { get; set; }
 
         public string Value { get; set; }
 
         public Status Status { get; set; }
+
+        public User User { get; set; }        
 
         #endregion
 
