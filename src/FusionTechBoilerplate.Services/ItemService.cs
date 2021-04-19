@@ -51,6 +51,9 @@
             var spec = (Specification<Item>)userParams.SpecByUserId.And(new FindByIdSpec<Item>(id));
             var item = await this._unitOfWork.Repository<Item>().Get(spec).Include(r => r.User).SingleOrDefaultAsync();
 
+            if (item == null)
+                throw new EntityNotFoundException(nameof(item), id);
+
             if (item != null && item.User.Id != userParams.Id) {
                 throw new EntityNotFoundException(nameof(User), userParams.Id);
             }
@@ -118,6 +121,9 @@
 
             var spec = (Specification<Item>)userParams.SpecByUserId.And(new FindByIdSpec<Item>(id));
             var item = await this._unitOfWork.Repository<Item>().Get(spec).Include(r => r.User).SingleOrDefaultAsync();
+
+            if (item == null)
+                throw new EntityNotFoundException(nameof(item), id);
 
             if (item != null && item.User.Id != userParams.Id) {
                 throw new EntityNotFoundException(nameof(User), userParams.Id);

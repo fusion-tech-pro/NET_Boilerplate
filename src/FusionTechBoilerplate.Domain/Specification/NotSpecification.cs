@@ -28,7 +28,7 @@
         {
             var expression = this._specification.ToExpression();
 
-            return PredicateBuilder.Not<T>(expression);
+            return ExpressionExtensions.Not<T>(expression);
         }
     }
 }

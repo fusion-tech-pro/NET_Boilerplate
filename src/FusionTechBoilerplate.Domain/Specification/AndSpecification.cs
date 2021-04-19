@@ -32,7 +32,7 @@
             var leftExpression = this._left.ToExpression();
             var rightExpression = this._right.ToExpression();
 
-            return PredicateBuilder.And<T>(leftExpression, rightExpression);
+            return ExpressionExtensions.And<T>(leftExpression, rightExpression);
         }
     }
 }
