@@ -2,11 +2,11 @@
 {
     #region << Using >>
 
+    using System;
     using FluentValidation.AspNetCore;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using System;
 
     #endregion
 
@@ -15,19 +15,23 @@
         public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services, string connectionString, SQLServerType sqlType)
                 where TContext : DbContext
         {
-            services.AddDbContext<TContext>(options =>  {
-            switch (sqlType)
-            {
-                case SQLServerType.MSSQL:
-                    options.UseSqlServer(connectionString);
-                    break;
-                case SQLServerType.PostgreSQl:
-                    options.UseNpgsql(connectionString);
-                    break;
-                default:
-                    throw new NotImplementedException();
-            };   
-            });
+            services.AddDbContext<TContext>(options =>
+                                            {
+                                                switch (sqlType)
+                                                {
+                                                    case SQLServerType.MSSQL:
+                                                        options.UseSqlServer(connectionString);
+                                                        break;
+                                                    case SQLServerType.PostgreSQl:
+                                                        options.UseNpgsql(connectionString);
+                                                        break;
+                                                    default:
+                                                        throw new NotImplementedException();
+                                                }
+
+                                                ;
+                                            });
+
             services.AddScoped<IUnitOfWork, UnitOfWork<TContext>>();
             services.AddScoped<IUnitOfWork<TContext>, UnitOfWork<TContext>>();
 

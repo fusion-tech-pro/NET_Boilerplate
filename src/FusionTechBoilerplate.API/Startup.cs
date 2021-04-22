@@ -2,8 +2,8 @@ namespace FusionTechBoilerplate.API
 {
     #region << Using >>
 
-    using FusionTechBoilerplate.Domain;
     using FusionTechBoilerplate.Authentication;
+    using FusionTechBoilerplate.Domain;
     using FusionTechBoilerplate.Models;
     using FusionTechBoilerplate.Services;
     using FusionTechBoilerplate.Utilities;
@@ -15,8 +15,8 @@ namespace FusionTechBoilerplate.API
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Serilog;
     using Microsoft.OpenApi.Models;
+    using Serilog;
 
     #endregion
 
@@ -49,22 +49,22 @@ namespace FusionTechBoilerplate.API
             services.AddBoilerplateQuartz<IItemService>();
 
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "API",
-                    Description = "ASP.NET Core Web API",
-                });
+                                   {
+                                       c.SwaggerDoc("v1", new OpenApiInfo
+                                                          {
+                                                                  Version = "v1",
+                                                                  Title = "API",
+                                                                  Description = "ASP.NET Core Web API",
+                                                          });
 
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
-                });
-            });
+                                       c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                                                                         {
+                                                                                 Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                                                                                 Name = "Authorization",
+                                                                                 In = ParameterLocation.Header,
+                                                                                 Type = SecuritySchemeType.ApiKey
+                                                                         });
+                                   });
         }
 
         [UsedImplicitly]
@@ -84,10 +84,11 @@ namespace FusionTechBoilerplate.API
 
             app.UseSwagger(s => s.SerializeAsV2 = true);
 
-            app.UseSwaggerUI(s => {
-                s.SwaggerEndpoint("../swagger/v1/swagger.json", "My API V1");
-                s.RoutePrefix = string.Empty;
-            });
+            app.UseSwaggerUI(s =>
+                             {
+                                 s.SwaggerEndpoint("../swagger/v1/swagger.json", "My API V1");
+                                 s.RoutePrefix = string.Empty;
+                             });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

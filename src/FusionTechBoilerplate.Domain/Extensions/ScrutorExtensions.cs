@@ -15,10 +15,7 @@
         {
             var lifeTimes = Enum.GetValues(typeof(ServiceLifetime)).Cast<ServiceLifetime>();
 
-            foreach (var item in lifeTimes)
-                selector = selector.InjectableAttribute(item);
-
-            return selector;
+            return lifeTimes.Aggregate(selector, (current, item) => current.InjectableAttribute(item));
         }
 
         public static IImplementationTypeSelector InjectableAttribute(this IImplementationTypeSelector selector, ServiceLifetime lifeTime)

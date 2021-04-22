@@ -2,13 +2,26 @@
 {
     public class EmailOptions
     {
+        #region Constants
+
         public const string SettingsSectionKey = "Smtp";
 
-        public string User { get; set;}
-        public string Password { get; set;}
-        public string Server { get; set;}
-        public int Port { get; set;}
-        public bool UseSsl { get; set;}
+        #endregion
+
+        #region Properties
+
+        public string User { get; set; }
+
+        public string Password { get; set; }
+
+        public string Server { get; set; }
+
+        public int Port { get; set; }
+
+        public bool UseSsl { get; set; }
+
         public bool RequiresAuthentication { get; set; }
+
+        #endregion
     }
 }

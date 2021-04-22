@@ -22,7 +22,7 @@
     {
         void ChangeDatabase(string database);
 
-        void BeginTransactionAsync (Func<Task> transactionAction);
+        void BeginTransactionAsync(Func<Task> transactionAction);
 
         IRepository<TEntity> Repository<TEntity>() where TEntity : class;
 

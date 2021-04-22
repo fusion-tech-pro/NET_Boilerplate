@@ -24,14 +24,17 @@
 
         private readonly IUnitOfWork _unitOfWork;
 
+        private readonly AppDbContext db;
+
         #endregion
 
         #region Constructors
 
-        public ItemService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ItemService(IUnitOfWork unitOfWork, IMapper mapper, AppDbContext context)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
+            this.db = context;
         }
 
         #endregion
@@ -60,47 +63,44 @@
 
         public async Task TestTransaction()
         {
-            using (var scopeOne = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.ReadCommitted }, TransactionScopeAsyncFlowOption.Enabled)) //options need to see the documentation
+            using (var scopeOne = new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled)) //options need to see the documentation
             {
-                var oneTestObject = new ItemDto()
-                                    {
-                                            Status = Status.New,
-                                            Value = "OneTestObject",
-                                    };
-
-                var itemOne = await AddOrUpdate(oneTestObject);
-
+                this._unitOfWork.BeginTransactionAsync(async () =>
+                                                       {
+                                                           await AddOrUpdate(new ItemDto()
+                                                                             {
+                                                                                     Status = Status.New,
+                                                                                     Value = "OneTestObject"
+                                                                             });
+                                                       });
                 using (var scopeTwo = new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    var twoTestObject = new ItemDto()
-                                        {
-                                                Status = Status.New,
-                                                Value = "TwoTestObject",
-                                        };
-
-                    var itemTwo = await AddOrUpdate(twoTestObject);
-                    // throw new Exception("level two");
+                    this._unitOfWork.BeginTransactionAsync(async () =>
+                                                           {
+                                                               await AddOrUpdate(new ItemDto()
+                                                                                 {
+                                                                                         Status = Status.New,
+                                                                                         Value = "TwoTestObject"
+                                                                                 });
+                                                           });
+                    //throw new Exception("level two");
                     using (var scopedThree = new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled))
                     {
                         this._unitOfWork.BeginTransactionAsync(async () =>
                                                                {
-                                                                   var threeTestObject = new ItemDto()
-                                                                                         {
-                                                                                                 Status = Status.New,
-                                                                                                 Value = "ThreeTestObject"
-                                                                                         };
-
-                                                                   var itemThree = await AddOrUpdate(threeTestObject);
+                                                                   await AddOrUpdate(new ItemDto()
+                                                                                     {
+                                                                                             Status = Status.New,
+                                                                                             Value = "ThreeTestObject"
+                                                                                     });
                                                                });
-
                         // throw new Exception("level three");
                         scopedThree.Complete();
                     }
-
                     scopeTwo.Complete();
                 }
 
-                throw new Exception("level one");
+                //throw new Exception("level one");
                 scopeOne.Complete();
             }
         }
@@ -130,7 +130,7 @@
             else
                 this._unitOfWork.Repository<Item>().Update(item);
 
-            await this._unitOfWork.SaveChangesAsync();
+            await this._unitOfWork.SaveChangesAsync(true);
 
             return this._mapper.Map<ItemDto>(item);
         }

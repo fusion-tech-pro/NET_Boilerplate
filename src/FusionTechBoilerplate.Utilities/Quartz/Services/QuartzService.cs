@@ -2,13 +2,13 @@
 {
     #region << Using >>
 
-    using Quartz;
-    using Quartz.Impl;
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using Quartz;
+    using Quartz.Impl;
 
     #endregion
 
@@ -43,8 +43,6 @@
 
         #endregion
 
-        #region Interface Implementations
-
         public async Task StartAsync(CancellationToken cancellationToken = default)
         {
             if (this._scheduler == null)
@@ -62,8 +60,6 @@
             if (this._scheduler.IsStarted)
                 await this._scheduler?.Shutdown(cancellationToken);
         }
-
-        #endregion
 
         public async Task<QuartzSchedule> ScheduleJob<T>(string cronExpression = default, CancellationToken cancellationToken = default) where T : IJob
         {

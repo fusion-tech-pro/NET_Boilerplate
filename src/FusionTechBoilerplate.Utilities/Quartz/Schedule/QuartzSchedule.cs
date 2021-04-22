@@ -2,9 +2,9 @@
 {
     #region << Using >>
 
-    using Quartz;
     using System;
     using System.Threading;
+    using Quartz;
 
     #endregion
 

@@ -18,14 +18,14 @@
 
         private readonly ILogger<ItemController> _logger;
 
-        private QuartzService _quartzService;
+        private readonly QuartzService _quartzService;
 
         #endregion
 
         #region Constructors
 
         public QuartzController(ILogger<ItemController> logger,
-                              QuartzService quartzService)
+                                QuartzService quartzService)
         {
             this._logger = logger;
             this._quartzService = quartzService;
