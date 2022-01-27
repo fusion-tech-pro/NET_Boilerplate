@@ -12,18 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.13" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FusionTechBoilerplate.Authentication\FusionTechBoilerplate.Authentication.csproj" />
     <ProjectReference Include="..\FusionTechBoilerplate.Domain\FusionTechBoilerplate.Domain.csproj" />
     <ProjectReference Include="..\FusionTechBoilerplate.Utilities\FusionTechBoilerplate.Utilities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
